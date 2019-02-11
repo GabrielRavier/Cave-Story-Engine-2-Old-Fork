@@ -202,7 +202,7 @@ endif
 OBJECTS = $(addprefix obj/$(FILENAME)/, $(addsuffix .o, $(SOURCES)))
 
 ifeq ($(WINDOWS), 1)
-OBJECTS += obj/$(FILENAME)/win_icon.o
+	OBJECTS += obj/$(FILENAME)/win_icon.o
 endif
 
 all: build/$(FILENAME)
