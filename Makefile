@@ -54,8 +54,8 @@ CXXFLAGS += `sdl2-config --cflags` `pkg-config freetype2 --cflags` -MMD -MP -MF 
 LIBS += `sdl2-config --static-libs` `pkg-config freetype2 --libs`
 
 ifeq ($(STATIC), 1)
-CXXFLAGS += -static
-LIBS += -lharfbuzz -lfreetype -lbz2 -lpng -lz -lgraphite2 -lRpcrt4 -lDwrite -lusp10
+	CXXFLAGS += -static
+	LIBS += -lharfbuzz -lfreetype -lbz2 -lpng -lz -lgraphite2 -lRpcrt4 -lDwrite -lusp10
 endif
 
 # For an accurate result to the original's code, compile in alphabetical order
@@ -206,6 +206,7 @@ ifneq ($(WINDOWS), 1)
 endif
 
 OBJECTS = $(addprefix $(OBJFOLDER)/$(EXECUTABLENAME)/, $(addsuffix .o, $(SOURCES)))
+DEPENDENCIES := $(addsuffix .d, $(OBJS))
 
 ifeq ($(WINDOWS), 1)
 	OBJECTS += $(OBJFOLDER)/$(EXECUTABLENAME)/win_icon.o
@@ -256,5 +257,8 @@ $(OBJFOLDER)/$(EXECUTABLENAME)/win_icon.o: $(RESOURCEFOLDER)/ICON/ICON.rc $(RESO
 	@windres $< $@
 	@echo Finished making $^
 
+# Include dependencies
+include $(wildcard $(DEPENDENCIES))
+	
 clean:
 	@rm -rf $(BUILDFOLDER) $(OBJFOLDER)
