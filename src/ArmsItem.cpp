@@ -137,9 +137,9 @@ void MoveCampCursor()
 {
 	int arms_num = 0;
 	int item_num = 0;
-	while ( gArmsData[arms_num].code != 0 )
+	while (gArmsData[arms_num].code != 0)
 		++arms_num;
-	while ( gItemData[item_num].code != 0 )
+	while (gItemData[item_num].code != 0)
 		++item_num;
 	
 	if (arms_num || item_num)
@@ -179,9 +179,9 @@ void MoveCampCursor()
 				bChange = true;
 			}
 			
-			if ( gKeyTrg & gKeyDown )
+			if (gKeyTrg & gKeyDown)
 			{
-				if ( gSelectedItem / 6 == (item_num - 1) / 6 )
+				if (gSelectedItem / 6 == (item_num - 1) / 6)
 					gCampActive = false;
 				else
 					gSelectedItem += 6;
@@ -302,7 +302,7 @@ void PutCampObject()
 		PutNumber4(40 * i + (WINDOW_WIDTH - 224) / 2, (WINDOW_HEIGHT - 160) / 2, gArmsData[i].level, 0);
 		
 		//Draw ammo
-		if ( gArmsData[i].max_num )
+		if (gArmsData[i].max_num)
 		{
 			PutNumber4(40 * i + (WINDOW_WIDTH - 224) / 2, (WINDOW_HEIGHT - 144) / 2, gArmsData[i].num, 0);
 			PutNumber4(40 * i + (WINDOW_WIDTH - 224) / 2, (WINDOW_HEIGHT - 128) / 2, gArmsData[i].max_num, 0);
@@ -350,7 +350,8 @@ int CampLoop()
 	
 	//Run script
 	int arms_num;
-	for (arms_num = 0; gArmsData[arms_num].code != 0; arms_num++);
+	for (arms_num = 0; gArmsData[arms_num].code != 0; arms_num++)
+		;
 	
 	if (arms_num)
 		StartTextScript(gArmsData[gSelectedArms].code + 1000);
@@ -454,7 +455,8 @@ void FullArmsEnergy()
 int RotationArms()
 {
 	int arms_num;
-	for ( arms_num = 0; gArmsData[arms_num].code != 0; arms_num++);
+	for (arms_num = 0; gArmsData[arms_num].code != 0; arms_num++)
+		;
 	if (!arms_num)
 		return 0;
 	
@@ -476,7 +478,8 @@ int RotationArms()
 int RotationArmsRev()
 {
 	int arms_num;
-	for (arms_num = 0; gArmsData[arms_num].code != 0; arms_num++);
+	for (arms_num = 0; gArmsData[arms_num].code != 0; arms_num++)
+		;
 	if (!arms_num)
 		return 0;
 	
