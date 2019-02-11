@@ -1,18 +1,19 @@
 ifeq ($(RELEASE), 1)
-	CXXFLAGS := -O3 -s
-	FILENAME_DEF = release
+	CXXFLAGS = -O3 -frename-registers -flto -s
+	FILENAME_DEF = DoukutsuRelease
 else
-	CXXFLAGS := -O0 -g
-	FILENAME_DEF = debug
+	CXXFLAGS = -Og -ggdb
+	FILENAME_DEF = DoukutsuDebug
+	CONSOLE = 1
 endif
 
 ifeq ($(JAPANESE), 1)
 	CXXFLAGS += -DJAPANESE
 	LIBS += -liconv
 	ifeq ($(RELEASE), 1)
-		FILENAME_DEF = releasejp
+		FILENAME_DEF = DoukutsuReleasejp
 	else
-		FILENAME_DEF = debugjp
+		FILENAME_DEF = DoukutsuDebugjp
 	endif
 endif
 
@@ -30,7 +31,18 @@ ifeq ($(WINDOWS), 1)
 	LIBS += -lkernel32
 endif
 
-CXXFLAGS += `sdl2-config --cflags` `pkg-config freetype2 --cflags`
+ifeq ($(WARNINGS), 1)
+	CXXFLAGS += -Wall -Wextra
+endif
+
+ifeq ($(ALL_WARNINGS), 1)
+	CXXFLAGS += -pedantic -Wall -Wextra -Walloc-zero -Walloca -Wbool-compare -Wcast-align -Wcast-qual -Wchar-subscripts -Wchkp -Wctor-dtor-privacy -Wdangling-else -Wdisabled-optimization -Wdouble-promotion -Wduplicated-branches -Wduplicated-cond -Wfloat-conversion -Wformat=2 -Wformat-nonliteral -Wformat-security -Wformat-signedness -Wformat-y2k -Wimport -Winit-self -Winvalid-pch -Wlogical-not-parentheses -Wlogical-op -Wmissing-field-initializers -Wmissing-format-attribute -Wmissing-include-dirs -Wmissing-noreturn -Wnoexcept -Wnoexcept-type -Wnon-virtual-dtor -Wnormalized=nfc -Wold-style-cast -Woverloaded-virtual -Wpointer-arith -Wregister -Wreorder -Wrestrict -Wshadow -Wsizeof-array-argument -Wstack-protector -Wstrict-aliasing=3 -Wstrict-null-sentinel -Wsuggest-attribute=const -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wsuggest-override -Wstrict-null-sentinel -Wswitch-bool -Wundef -Wunreachable-code -Wunused -Wunused-local-typedefs -Wunused-macros -Wunused-parameter -Wvariadic-macros -Wwrite-strings -Wzero-as-null-pointer-constant
+endif
+
+# Base command-line when calling the compiler
+# `sdl2-config --cflags` to get the flags needed to compile with SDL2
+# -MMD -MP -MF $@.d to make the compiler generate dependency files
+CXXFLAGS += `sdl2-config --cflags` `pkg-config freetype2 --cflags` -MMD -MP -MF $@.d
 LIBS += `sdl2-config --static-libs` `pkg-config freetype2 --libs`
 
 ifeq ($(STATIC), 1)
@@ -195,32 +207,42 @@ all: build/$(FILENAME)
 
 build/$(FILENAME): $(OBJECTS)
 	@mkdir -p $(@D)
+	@echo Linking to $@...
 	@g++ $(CXXFLAGS) $^ -o $@ $(LIBS)
-	@echo Finished compiling: $@
+	@echo Finished compiling $@
+	@echo Copying data files...
+	@rsync -a gameData/ build/
+	@echo Copied data files
 
 obj/$(FILENAME)/%.o: src/%.cpp
 	@mkdir -p $(@D)
-	@echo Compiling $^
+	@echo Compiling $^...
 	@g++ $(CXXFLAGS) $^ -o $@ -c
+	@echo Finished compiling $^
 
 obj/$(FILENAME)/Resource.o: src/Resource.cpp $(addprefix src/Resource/, $(addsuffix .h, $(RESOURCES)))
 	@mkdir -p $(@D)
-	@echo Compiling $<
+	@echo Compiling $<...
 	@g++ $(CXXFLAGS) $< -o $@ -c
+	@echo Finished compiling $<
 
 src/Resource/%.h: res/% obj/bin2h
 	@mkdir -p $(@D)
-	@echo Converting $<
+	@echo Converting $<...
 	@obj/bin2h $< $@
+	@echo Finished converting $<
 
 obj/bin2h: res/bin2h.c
 	@mkdir -p $(@D)
-	@echo Compiling $^
+	@echo Compiling $^...
 	@gcc -O3 -s -static $^ -o $@
+	@echo Finished compiling $^
 
 obj/$(FILENAME)/win_icon.o: res/ICON/ICON.rc res/ICON/0.ico res/ICON/ICON_MINI.ico
 	@mkdir -p $(@D)
+	@echo Making $^...
 	@windres $< $@
+	@echo Finished making $^
 
 clean:
 	@rm -rf build obj
