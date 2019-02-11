@@ -1,9 +1,15 @@
+OBJFOLDER = obj
+BUILDFOLDER = build
+RESOURCEFOLDER = res
+DATAFOLDER = gameData
+SOURCEFOLDER = src
+
 ifeq ($(RELEASE), 1)
 	CXXFLAGS = -O3 -frename-registers -flto -s
-	FILENAME_DEF = DoukutsuRelease
+	EXECUTABLENAME_DEF = DoukutsuRelease
 else
 	CXXFLAGS = -Og -ggdb
-	FILENAME_DEF = DoukutsuDebug
+	EXECUTABLENAME_DEF = DoukutsuDebug
 	ifneq ($(CONSOLE), 0)
 		CONSOLE = 1
 	endif
@@ -13,13 +19,13 @@ ifeq ($(JAPANESE), 1)
 	CXXFLAGS += -DJAPANESE
 	LIBS += -liconv
 	ifeq ($(RELEASE), 1)
-		FILENAME_DEF = DoukutsuReleasejp
+		EXECUTABLENAME_DEF = DoukutsuReleasejp
 	else
-		FILENAME_DEF = DoukutsuDebugjp
+		EXECUTABLENAME_DEF = DoukutsuDebugjp
 	endif
 endif
 
-FILENAME ?= $(FILENAME_DEF)
+EXECUTABLENAME ?= $(EXECUTABLENAME_DEF)
 
 ifeq ($(FIX_BUGS), 1)
 	CXXFLAGS += -DFIX_BUGS
@@ -199,52 +205,56 @@ ifneq ($(WINDOWS), 1)
 	RESOURCES += ICON/ICON_MINI.bmp
 endif
 
-OBJECTS = $(addprefix obj/$(FILENAME)/, $(addsuffix .o, $(SOURCES)))
+OBJECTS = $(addprefix $(OBJFOLDER)/$(EXECUTABLENAME)/, $(addsuffix .o, $(SOURCES)))
 
 ifeq ($(WINDOWS), 1)
-	OBJECTS += obj/$(FILENAME)/win_icon.o
+	OBJECTS += $(OBJFOLDER)/$(EXECUTABLENAME)/win_icon.o
 endif
 
-all: build/$(FILENAME)
+all: $(BUILDFOLDER)/$(EXECUTABLENAME) dummyDataTarget
+	@echo Build finished without errors !
 
-build/$(FILENAME): $(OBJECTS)
+$(BUILDFOLDER)/$(EXECUTABLENAME): $(OBJECTS)
 	@mkdir -p $(@D)
 	@echo Linking to $@...
 	@$(CXX) $(CXXFLAGS) $^ -o $@ $(LIBS)
 	@echo Finished compiling $@
-	@echo Copying data files...
-	@rsync -a gameData/ build/
-	@echo Copied data files
 
-obj/$(FILENAME)/%.o: src/%.cpp
+# Do this unless we find a way to use rsync to check if there is any change to be made in some way
+dummyDataTarget:
+	@echo Syncing data files...
+	@rsync -a $(DATAFOLDER)/ $(BUILDFOLDER)/
+	@echo Synced data files
+
+$(OBJFOLDER)/$(EXECUTABLENAME)/%.o: $(SOURCEFOLDER)/%.cpp
 	@mkdir -p $(@D)
 	@echo Compiling $^...
 	@$(CXX) $(CXXFLAGS) $^ -o $@ -c
 	@echo Finished compiling $^
 
-obj/$(FILENAME)/Resource.o: src/Resource.cpp $(addprefix src/Resource/, $(addsuffix .h, $(RESOURCES)))
+$(OBJFOLDER)/$(EXECUTABLENAME)/Resource.o: $(SOURCEFOLDER)/Resource.cpp $(addprefix $(SOURCEFOLDER)/Resource/, $(addsuffix .h, $(RESOURCES)))
 	@mkdir -p $(@D)
 	@echo Compiling $<...
 	@$(CXX) $(CXXFLAGS) $< -o $@ -c
 	@echo Finished compiling $<
 
-src/Resource/%.h: res/% obj/bin2h
+$(SOURCEFOLDER)/Resource/%.h: $(RESOURCEFOLDER)/% $(OBJFOLDER)/bin2h
 	@mkdir -p $(@D)
 	@echo Converting $<...
-	@obj/bin2h $< $@
+	@$(OBJFOLDER)/bin2h $< $@
 	@echo Finished converting $<
 
-obj/bin2h: res/bin2h.c
+$(OBJFOLDER)/bin2h: $(RESOURCEFOLDER)/bin2h.c
 	@mkdir -p $(@D)
 	@echo Compiling $^...
 	@$(CC) -O3 -s -static $^ -o $@
 	@echo Finished compiling $^
 
-obj/$(FILENAME)/win_icon.o: res/ICON/ICON.rc res/ICON/0.ico res/ICON/ICON_MINI.ico
+$(OBJFOLDER)/$(EXECUTABLENAME)/win_icon.o: $(RESOURCEFOLDER)/ICON/ICON.rc $(RESOURCEFOLDER)/ICON/0.ico $(RESOURCEFOLDER)/ICON/ICON_MINI.ico
 	@mkdir -p $(@D)
 	@echo Making $^...
 	@windres $< $@
 	@echo Finished making $^
 
 clean:
-	@rm -rf build obj
+	@rm -rf $(BUILDFOLDER) $(OBJFOLDER)
