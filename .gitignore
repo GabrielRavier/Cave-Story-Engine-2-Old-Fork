@@ -9,32 +9,67 @@
 build.7z
 build.zip
 
-# Compiled Object files
+# Dump file
+*.stackdump
+
+# Compiled object files
 *.slo
-*.lo
-*.o
 *.obj
+*.o
+*.lo
+*.ko
+*.elf
 
 # Precompiled Headers
 *.gch
 *.pch
 
-# Compiled Dynamic libraries
+# Compiled dynamic libraries
 *.so
 *.dylib
 *.dll
+*.so.*
 
 # Fortran module files
 *.mod
 *.smod
 
-# Compiled Static libraries
+# Compiled static libraries
 *.lai
 *.la
 *.a
 *.lib
+*.lo
 
 # Executables
-*.exe
 *.out
 *.app
+*.i*86
+*.x86_64
+*.hex
+
+# Visual Studio Code stuff
+.vscode/*
+
+# Useful for VS Code users
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# CMake stuff
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+
+# Backup files
+*.bak
+
+# Temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
