@@ -4,7 +4,9 @@ ifeq ($(RELEASE), 1)
 else
 	CXXFLAGS = -Og -ggdb
 	FILENAME_DEF = DoukutsuDebug
-	CONSOLE = 1
+	ifneq ($(CONSOLE), 0)
+		CONSOLE = 1
+	endif
 endif
 
 ifeq ($(JAPANESE), 1)
@@ -208,7 +210,7 @@ all: build/$(FILENAME)
 build/$(FILENAME): $(OBJECTS)
 	@mkdir -p $(@D)
 	@echo Linking to $@...
-	@g++ $(CXXFLAGS) $^ -o $@ $(LIBS)
+	@$(CXX) $(CXXFLAGS) $^ -o $@ $(LIBS)
 	@echo Finished compiling $@
 	@echo Copying data files...
 	@rsync -a gameData/ build/
@@ -217,13 +219,13 @@ build/$(FILENAME): $(OBJECTS)
 obj/$(FILENAME)/%.o: src/%.cpp
 	@mkdir -p $(@D)
 	@echo Compiling $^...
-	@g++ $(CXXFLAGS) $^ -o $@ -c
+	@$(CXX) $(CXXFLAGS) $^ -o $@ -c
 	@echo Finished compiling $^
 
 obj/$(FILENAME)/Resource.o: src/Resource.cpp $(addprefix src/Resource/, $(addsuffix .h, $(RESOURCES)))
 	@mkdir -p $(@D)
 	@echo Compiling $<...
-	@g++ $(CXXFLAGS) $< -o $@ -c
+	@$(CXX) $(CXXFLAGS) $< -o $@ -c
 	@echo Finished compiling $<
 
 src/Resource/%.h: res/% obj/bin2h
@@ -235,7 +237,7 @@ src/Resource/%.h: res/% obj/bin2h
 obj/bin2h: res/bin2h.c
 	@mkdir -p $(@D)
 	@echo Compiling $^...
-	@gcc -O3 -s -static $^ -o $@
+	@$(CC) -O3 -s -static $^ -o $@
 	@echo Finished compiling $^
 
 obj/$(FILENAME)/win_icon.o: res/ICON/ICON.rc res/ICON/0.ico res/ICON/ICON_MINI.ico
