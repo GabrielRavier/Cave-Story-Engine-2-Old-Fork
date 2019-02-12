@@ -119,7 +119,7 @@ void ActCaret02(CARET *crt)
 				crt->ani_wait = 0;
 				++crt->ani_no;
 			}
-			if ( crt->ani_no > 3 )
+			if (crt->ani_no > 3)
 				crt->cond = 0;
 			crt->rect = rect_left[crt->ani_no];
 			break;
@@ -131,12 +131,12 @@ void ActCaret02(CARET *crt)
 			break;
 			
 		case 2:
-			if ( ++crt->ani_wait > 2 )
+			if (++crt->ani_wait > 2)
 			{
 				crt->ani_wait = 0;
 				++crt->ani_no;
 			}
-			if ( crt->ani_no > 3 )
+			if (crt->ani_no > 3)
 				crt->cond = 0;
 			crt->rect = rect_right[crt->ani_no];
 			break;
@@ -204,7 +204,7 @@ void ActCaret05(CARET *crt)
 		++crt->ani_no;
 	}
 
-	if ( crt->ani_no > 6 )
+	if (crt->ani_no > 6)
 		crt->cond = 0;
 
 	crt->x += 0x80;
@@ -270,7 +270,7 @@ void ActCaret09(CARET *crt)
 
 	if (++crt->ani_wait <= 4)
 		crt->y -= 0x800;
-	if (crt->ani_wait == 32 )
+	if (crt->ani_wait == 32)
 		crt->cond = 0;
 	
 	if (crt->direct == 0)

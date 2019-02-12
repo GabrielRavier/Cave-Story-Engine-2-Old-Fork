@@ -686,7 +686,7 @@ int JudgeHitMyCharNPC4(NPCHAR *npc)
 		{
 			if (gMC.x - gMC.hit.right < npc->x + npc->hit.back && gMC.x - gMC.hit.right > npc->x)
 			{
-				if ( gMC.xm < npc->xm )
+				if (gMC.xm < npc->xm)
 					gMC.xm = npc->xm;
 				gMC.x = npc->hit.back + npc->x + gMC.hit.right;
 				hit |= 1;
@@ -694,7 +694,7 @@ int JudgeHitMyCharNPC4(NPCHAR *npc)
 			
 			if (gMC.x + gMC.hit.right > npc->x - npc->hit.back && gMC.hit.right + gMC.x < npc->x)
 			{
-				if ( gMC.xm > npc->xm )
+				if (gMC.xm > npc->xm)
 					gMC.xm = npc->xm;
 				gMC.x = npc->x - npc->hit.back - gMC.hit.right;
 				hit |= 4;

@@ -254,7 +254,7 @@ void ActNpc122(NPCHAR *npc)
 	if (npc->xm < -0x1FF)
 		npc->xm = -0x1FF;
 
-	if (npc->ym > 0x5FF )
+	if (npc->ym > 0x5FF)
 		npc->ym = 0x5FF;
 
 	npc->y += npc->ym;
@@ -1069,7 +1069,7 @@ void ActNpc135(NPCHAR *npc)
 	if (gMC.x < npc->x - 0x2C000 || gMC.x > npc->x + 0x2C000 || gMC.y < npc->y - 0x14000 || gMC.y > npc->y + 0x8000)
 		npc->act_no = 0;
 
-	switch ( npc->act_no )
+	switch (npc->act_no)
 	{
 		case 0:
 			npc->act_no = 1;

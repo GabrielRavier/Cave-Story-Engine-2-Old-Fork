@@ -7,14 +7,14 @@ int16_t gTan[0x21];
 void InitTriangleTable()
 {
 	//Sine
-	for (int i = 0; i < 0x100; ++i )
+	for (int i = 0; i < 0x100; ++i)
 	{
 		float v0 = i * 6.2831998 / 256.0;
 		gSin[i] = (int)(sinf(v0) * 512.0);
 	}
 	
 	//Tangent
-	for (int i = 0; i < 0x21; ++i )
+	for (int i = 0; i < 0x21; ++i)
 	{
 		float a = i * 6.2831855 / 256.0;
 		float v2 = sinf(a);

@@ -151,10 +151,10 @@ void JudgeHitNpCharTriangleE(NPCHAR *npc, int x, int y)
 {
 	int hit = 0x10000;
 
-	if ( npc->x < (2 * x + 1) << 12
+	if (npc->x < (2 * x + 1) << 12
 		&& npc->x > (2 * x - 1) << 12
 		&& npc->y + npc->hit.bottom > (y << 13) + (-0x2000 * x + npc->x) / 2 - 0x800
-		&& npc->y - npc->hit.top < (2 * y + 1) << 12 )
+		&& npc->y - npc->hit.top < (2 * y + 1) << 12)
 	{
 		//Clip
 		npc->y = (y << 13) + (-0x2000 * x + npc->x) / 2 - 0x800 - npc->hit.bottom;
@@ -174,10 +174,10 @@ void JudgeHitNpCharTriangleF(NPCHAR *npc, int x, int y)
 {
 	int hit = 0x20000;
 
-	if ( npc->x < (2 * x + 1) << 12
+	if (npc->x < (2 * x + 1) << 12
 		&& npc->x > (2 * x - 1) << 12
 		&& npc->y + npc->hit.bottom > (y << 13) + (-0x2000 * x + npc->x) / 2 + 0x800
-		&& npc->y - npc->hit.top < (2 * y + 1) << 12 )
+		&& npc->y - npc->hit.top < (2 * y + 1) << 12)
 	{
 		//Clip
 		npc->y = (y << 13) + (-0x2000 * x + npc->x) / 2 + 0x800 - npc->hit.bottom;
@@ -197,10 +197,10 @@ void JudgeHitNpCharTriangleG(NPCHAR *npc, int x, int y)
 {
 	int hit = 0x40000;
 
-	if ( npc->x < (2 * x + 1) << 12
+	if (npc->x < (2 * x + 1) << 12
 		&& npc->x > (2 * x - 1) << 12
 		&& npc->y + npc->hit.bottom > (y << 13) - (-0x2000 * x + npc->x) / 2 + 0x800
-		&& npc->y - npc->hit.top < (2 * y + 1) << 12 )
+		&& npc->y - npc->hit.top < (2 * y + 1) << 12)
 	{
 		//Clip
 		npc->y = (y << 13) - (-0x2000 * x + npc->x) / 2 + 0x800 - npc->hit.bottom;
@@ -220,10 +220,10 @@ void JudgeHitNpCharTriangleH(NPCHAR *npc, int x, int y)
 {
 	int hit = 0x80000;
 
-	if ( npc->x < (2 * x + 1) << 12
+	if (npc->x < (2 * x + 1) << 12
 		&& npc->x > (2 * x - 1) << 12
 		&& npc->y + npc->hit.bottom > (y << 13) - (-0x2000 * x + npc->x) / 2 - 0x800
-		&& npc->y - npc->hit.top < (2 * y + 1) << 12 )
+		&& npc->y - npc->hit.top < (2 * y + 1) << 12)
 	{
 		//Clip
 		npc->y = (y << 13) - (-0x2000 * x + npc->x) / 2 - 0x800 - npc->hit.bottom;

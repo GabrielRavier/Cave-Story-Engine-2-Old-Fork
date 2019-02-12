@@ -61,7 +61,7 @@ static void ActBossChar_Eye(NPCHAR *npc)
 				--npc->ani_no;
 			}
 
-			if ( npc->ani_no <= 0 )
+			if (npc->ani_no <= 0)
 				npc->act_no = 202;
 
 			break;
@@ -221,7 +221,7 @@ void ActBossChar_Ballos(void)
 				SetQuake2(30);
 				PlaySoundObject(44, 1);
 
-				if ( gMC.y > gBoss[0].y + 0x6000 && gMC.x < gBoss[0].x + 0x3000 && gMC.x > gBoss[0].x - 0x3000 )
+				if (gMC.y > gBoss[0].y + 0x6000 && gMC.x < gBoss[0].x + 0x3000 && gMC.x > gBoss[0].x - 0x3000)
 					DamageMyChar(16);
 
 				for (int i = 0; i < 0x10; ++i)

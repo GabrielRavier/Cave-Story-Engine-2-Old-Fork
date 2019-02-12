@@ -466,7 +466,7 @@ void ActNpc326(NPCHAR *npc)
 			{
 				npc->act_no = 15;
 				npc->ani_no = 4;
-				if ( npc->direct )
+				if (npc->direct)
 					npc->act_wait = -20;
 				else
 					npc->act_wait = 0;
@@ -960,7 +960,7 @@ void ActNpc336(NPCHAR *npc)
 			break;
 
 		case 10:
-			if (++npc->act_wait % 4 == 1 )
+			if (++npc->act_wait % 4 == 1)
 				SetNpChar(335, npc->x, npc->y + (Random(0, 13) * 0x2000), 0, 0, 0, 0, 0);
 
 			break;

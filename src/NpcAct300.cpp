@@ -1678,10 +1678,8 @@ void ActNpc317(NPCHAR *npc)
 			if (npc->ani_no > 1)
 				npc->ani_no = 0;
 
-			if (gMC.x > npc->x - 0x28000 && gMC.x < npc->x + 0x28000 && gMC.y > npc->y - 0x14000 && gMC.y < npc->y + 0x14000 && ++npc->count1 > 50 )
-			{
+			if (gMC.x > npc->x - 0x28000 && gMC.x < npc->x + 0x28000 && gMC.y > npc->y - 0x14000 && gMC.y < npc->y + 0x14000 && ++npc->count1 > 50)
 				npc->act_no = 10;
-			}
 
 			break;
 

@@ -407,7 +407,7 @@ void ActBossChar_Undead(void)
 				}
 				else
 				{
-					if ( gBoss[0].count1 <= 2 )
+					if (gBoss[0].count1 <= 2)
 						gBoss[0].act_no = 210;
 					else
 						gBoss[0].act_no = 220;

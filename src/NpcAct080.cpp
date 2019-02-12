@@ -277,7 +277,7 @@ void ActNpc081(NPCHAR *npc)
 		case 1:
 		case 2:
 		case 4:
-			if (npc->shock )
+			if (npc->shock)
 			{
 				npc->ym = -0x200;
 				npc->ani_no = 5;
@@ -606,7 +606,7 @@ void ActNpc083(NPCHAR *npc)
 	}
 
 	npc->ym += 0x40;
-	if ( npc->ym > 0x5FF )
+	if (npc->ym > 0x5FF)
 		npc->ym = 0x5FF;
 
 	npc->x += npc->xm;
@@ -975,12 +975,12 @@ void ActNpc088(NPCHAR *npc)
 			{
 				if (npc->direct == 0)
 				{
-					if ( npc->x - 0x3000 < gMC.x )
+					if (npc->x - 0x3000 < gMC.x)
 						npc->act_no = 4;
 				}
 				else
 				{
-					if ( npc->x + 0x3000 > gMC.x )
+					if (npc->x + 0x3000 > gMC.x)
 						npc->act_no = 4;
 				}
 			}
@@ -1694,7 +1694,7 @@ void ActNpc096(NPCHAR *npc)
 	switch (npc->act_no)
 	{
 		case 0:
-			if ( npc->direct == 2 )
+			if (npc->direct == 2)
 				npc->act_no = 2;
 			else
 				npc->ani_no = 1;

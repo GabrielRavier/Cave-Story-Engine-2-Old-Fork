@@ -261,9 +261,9 @@ void PlaySoundObject(int no, int mode)
 		{
 			lpSECONDARYBUFFER[no]->Play(true);
 		}
-		else if ( mode )
+		else if (mode)
 		{
-			if ( mode == 1 )
+			if (mode == 1)
 			{
 				lpSECONDARYBUFFER[no]->Stop();
 				lpSECONDARYBUFFER[no]->SetCurrentPosition(0);

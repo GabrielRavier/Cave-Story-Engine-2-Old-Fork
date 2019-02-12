@@ -547,7 +547,7 @@ void ActNpc006(NPCHAR *npc)
 				++npc->ani_no;
 			}
 			
-			if ( npc->ani_no > 2 )
+			if (npc->ani_no > 2)
 				npc->ani_no = 1;
 			
 			//Stop when hitting a wall
@@ -590,7 +590,7 @@ void ActNpc006(NPCHAR *npc)
 				++npc->ani_no;
 			}
 			
-			if ( npc->ani_no > 2 )
+			if (npc->ani_no > 2)
 				npc->ani_no = 1;
 			
 			//Stop when hitting a wall
@@ -1516,17 +1516,17 @@ void ActNpc016(NPCHAR *npc)
 			break;
 	}
 
-	if ( ++npc->ani_wait > 2 )
+	if (++npc->ani_wait > 2)
 	{
 		npc->ani_wait = 0;
 		++npc->ani_no;
 	}
 
-	if ( npc->ani_no > 7 )
+	if (npc->ani_no > 7)
 		npc->ani_no = 0;
 
 	npc->ym += 0x40;
-	if ( npc->ym > 0x5FF )
+	if (npc->ym > 0x5FF)
 		npc->ym = 0x5FF;
 
 	npc->y += npc->ym;

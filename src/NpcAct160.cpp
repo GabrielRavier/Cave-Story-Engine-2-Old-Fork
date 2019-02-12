@@ -459,7 +459,7 @@ void ActNpc166(NPCHAR *npc)
 			break;
 
 		case 2:
-			if (++npc->act_wait > 8 )
+			if (++npc->act_wait > 8)
 			{
 				npc->act_no = 1;
 				npc->ani_no = 0;
@@ -1178,7 +1178,7 @@ void ActNpc173(NPCHAR *npc)
 
 		if (npc->ym > 0x5FF)
 			npc->ym = 0x5FF;
-		if ( npc->ym < -0x5FFu )
+		if (npc->ym < -0x5FFu)
 			npc->ym = 0x5FF;
 
 		npc->x += npc->xm;

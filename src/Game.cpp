@@ -74,7 +74,7 @@ void PutNumber4(int x, int y, int value, bool bZero)
 	int tbl[4] = {1000, 100, 10, 1};
 	
 	//Limit value
-	if ( value > 9999 )
+	if (value > 9999)
 		value = 9999;
 	
 	//Go through number and draw digits
@@ -93,7 +93,7 @@ void PutNumber4(int x, int y, int value, bool bZero)
 		}
 		
 		//Draw digit
-		if ((bZero && offset == 2) || sw != 0 || offset == 3 )
+		if ((bZero && offset == 2) || sw != 0 || offset == 3)
 			PutBitmap3(&rcClient, x + 8 * offset, y, &rect[a], SURFACE_ID_TEXT_BOX);
 		
 		//Go to next digit
@@ -334,7 +334,7 @@ int ModeTitle()
 		ActCaret();
 		
 		//Animate character cursor
-		if ( ++anime >= 40 )
+		if (++anime >= 40)
 			anime = 0;
 		
 		//Draw title
@@ -361,7 +361,7 @@ int ModeTitle()
 		RECT char_rc;
 		int char_surf;
 		
-		switch ( char_type )
+		switch (char_type)
 		{
 			case 0:
 				char_rc = rcMyChar[anime / 10 % 4];

@@ -148,7 +148,7 @@ void ActNpc241(NPCHAR *npc)
 			}
 			else
 			{
-				if ( npc->act_wait < 8 )
+				if (npc->act_wait < 8)
 					++npc->act_wait;
 
 				npc->ani_no = 0;
@@ -367,7 +367,7 @@ void ActNpc245(NPCHAR *npc)
 		case 1:
 			npc->ani_no = 0;
 
-			if ( npc->act_wait )
+			if (npc->act_wait)
 			{
 				--npc->act_wait;
 				return;
@@ -990,7 +990,7 @@ void ActNpc252(NPCHAR *npc)
 
 			deg = npc->count1;
 
-			if ( npc->act_wait < 192 )
+			if (npc->act_wait < 192)
 				++npc->act_wait;
 
 			npc->x = npc->pNpc->x + npc->act_wait * GetCos(deg) / 4;
@@ -1205,7 +1205,7 @@ void ActNpc256(NPCHAR *npc)
 	rcLeft[4] = {0, 160, 24, 192};
 	rcLeft[5] = {24, 160, 48, 192};
 
-	switch ( npc->act_no )
+	switch (npc->act_no)
 	{
 		case 0:
 			gSuperXpos = 0;

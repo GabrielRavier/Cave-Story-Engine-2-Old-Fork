@@ -82,7 +82,7 @@ int GetFramePerSecound()
 	current_tick = SDL_GetTicks();
 	++current_frame;
 	
-	if ( base_tick + 1000 <= current_tick )
+	if (base_tick + 1000 <= current_tick)
 	{
 		base_tick += 1000;
 		frames_this_second = current_frame;

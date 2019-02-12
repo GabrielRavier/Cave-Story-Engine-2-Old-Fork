@@ -320,7 +320,7 @@ void ActNpc106(NPCHAR *npc)
 //Malco
 void ActNpc107(NPCHAR *npc)
 {
-	switch ( npc->act_no )
+	switch (npc->act_no)
 	{
 		case 0:
 			npc->act_no = 1;
@@ -756,7 +756,7 @@ void ActNpc111(NPCHAR *npc)
 	rcRight[0] = {0, 16, 16, 32};
 	rcRight[1] = {16, 16, 32, 32};
 
-	switch ( npc->act_no )
+	switch (npc->act_no)
 	{
 		case 0:
 			npc->act_no = 1;
@@ -901,7 +901,7 @@ void ActNpc112(NPCHAR *npc)
 	{
 		npc->rect.bottom = npc->rect.top + npc->act_wait / 4;
 
-		if ( npc->act_wait / 2 % 2 )
+		if (npc->act_wait / 2 % 2)
 			++npc->rect.left;
 	}
 }
@@ -1489,7 +1489,7 @@ void ActNpc118(NPCHAR *npc)
 
 	if (npc->direct == 0 && gMC.x > npc->x)
 		bUpper = true;
-	if ( npc->direct == 2 && gMC.x < npc->x)
+	if (npc->direct == 2 && gMC.x < npc->x)
 		bUpper = true;
 
 	switch (npc->act_no)

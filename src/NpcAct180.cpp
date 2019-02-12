@@ -46,7 +46,7 @@ void ActNpc180(NPCHAR *npc)
 
 	if (npc->y < gMC.y - 0x14000)
 	{
-		if ( npc->y >= 0x20000 )
+		if (npc->y >= 0x20000)
 		{
 			npc->tgt_x = 0;
 			npc->tgt_y = npc->y;
@@ -203,7 +203,7 @@ void ActNpc180(NPCHAR *npc)
 	int xx = npc->x - npc->tgt_x;
 	int yy = npc->y - npc->tgt_y;
 
-	if ( xx < 0 )
+	if (xx < 0)
 		xx = -xx;
 
 	if (npc->act_no == 100)
@@ -216,7 +216,7 @@ void ActNpc180(NPCHAR *npc)
 
 	if (npc->act_no == 210 || npc->act_no == 310)
 	{
-		if ( xx + 0x400 < yy )
+		if (xx + 0x400 < yy)
 			npc->ani_no = 6;
 		else
 			npc->ani_no = 1;
@@ -965,7 +965,7 @@ void ActNpc191(NPCHAR *npc)
 	int v3; // edx
 	int v4; // edx
 
-	switch ( npc->act_no )
+	switch (npc->act_no)
 	{
 		case 0:
 			npc->act_no = 10;
@@ -1039,7 +1039,7 @@ void ActNpc191(NPCHAR *npc)
 //Scooter
 void ActNpc192(NPCHAR *npc)
 {
-	switch ( npc->act_no )
+	switch (npc->act_no)
 	{
 		case 0:
 			npc->act_no = 1;

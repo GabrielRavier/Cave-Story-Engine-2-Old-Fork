@@ -101,7 +101,7 @@ void AnimationMyChar(bool bKey)
 				if (gMC.ani_no > 4 || gMC.ani_no < 1)
 					gMC.ani_no = 1;
 			}
-			else if ( gKey & gKeyUp && bKey )
+			else if (gKey & gKeyUp && bKey)
 			{
 				if (gMC.cond & 4)
 					PlaySoundObject(24, 1);
@@ -126,7 +126,7 @@ void AnimationMyChar(bool bKey)
 		{
 			gMC.ani_no = 10;
 		}
-		else if ( gMC.ym <= 0 )
+		else if (gMC.ym <= 0)
 		{
 			gMC.ani_no = 3;
 		}
@@ -356,19 +356,19 @@ void ActMyChar_Normal(bool bKey)
 							gMC.xm = 0;
 							gMC.ym = -0x5FF;
 						}
-						else if ( gKey & gKeyLeft )
+						else if (gKey & gKeyLeft)
 						{
 							gMC.boost_sw = 1;
 							gMC.ym = 0;
 							gMC.xm = -0x5FF;
 						}
-						else if ( gKey & gKeyRight )
+						else if (gKey & gKeyRight)
 						{
 							gMC.boost_sw = 1;
 							gMC.ym = 0;
 							gMC.xm = 0x5FF;
 						}
-						else if ( gKey & gKeyDown )
+						else if (gKey & gKeyDown)
 						{
 							gMC.boost_sw = 3;
 							gMC.xm = 0;
@@ -384,14 +384,14 @@ void ActMyChar_Normal(bool bKey)
 				}
 				
 				//Move left and right
-				if ( gKey & gKeyLeft && gMC.xm > -max_dash )
+				if (gKey & gKeyLeft && gMC.xm > -max_dash)
 					gMC.xm -= dash2;
-				if ( gKey & gKeyRight && gMC.xm < max_dash )
+				if (gKey & gKeyRight && gMC.xm < max_dash)
 					gMC.xm += dash2;
 				
-				if ( gKey & gKeyLeft )
+				if (gKey & gKeyLeft)
 					gMC.direct = 0;
-				if ( gKey & gKeyRight )
+				if (gKey & gKeyRight)
 					gMC.direct = 2;
 			}
 			
@@ -410,7 +410,7 @@ void ActMyChar_Normal(bool bKey)
 		}
 		
 		//Jumping
-		if ( bKey )
+		if (bKey)
 		{
 			//Look up and down
 			gMC.up = (gKey & gKeyUp) != 0;
@@ -797,18 +797,12 @@ void AirProcess()
 			}
 		}
 		else
-		{
 			gMC.air = 1000;
-		}
 		
-		if ( gMC.flag & 0x100 )
-		{
+		if (gMC.flag & 0x100)
 			gMC.air_get = 60;
-		}
 		else if (gMC.air_get)
-		{
 			--gMC.air_get;
-		}
 	}
 }
 
@@ -820,9 +814,7 @@ void ActMyChar(bool bKey)
 			--gMC.exp_wait;
 		
 		if (gMC.shock)
-		{
 			--gMC.shock;
-		}
 		else if (gMC.exp_count)
 		{
 			SetValueView(&gMC.x, &gMC.y, gMC.exp_count);

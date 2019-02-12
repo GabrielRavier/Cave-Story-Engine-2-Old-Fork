@@ -38,7 +38,7 @@ void ActNpc060(NPCHAR *npc)
 	rcRight[6] = {112, 80, 128, 96};
 	rcRight[7] = {128, 80, 144, 96};
 
-	switch ( npc->act_no )
+	switch (npc->act_no)
 	{
 		case 0:
 			npc->act_no = 1;
@@ -160,7 +160,7 @@ void ActNpc060(NPCHAR *npc)
 			break;
 
 		case 11:
-			if ( npc->act_wait++ && npc->flag & 8 )
+			if (npc->act_wait++ && npc->flag & 8)
 			{
 				npc->act_no = 12;
 				npc->ani_no = 7;
@@ -425,7 +425,7 @@ void ActNpc062(NPCHAR *npc)
 	rcLeft[1] = {288, 192, 304, 216};
 	rcLeft[2] = {304, 192, 320, 216};
 
-	switch ( npc->act_no )
+	switch (npc->act_no)
 	{
 		case 0:
 			npc->x -= 0x800;
@@ -1806,7 +1806,7 @@ void ActNpc079(NPCHAR *npc)
 			break;
 
 		case 3:
-			if (++npc->act_wait > 8 )
+			if (++npc->act_wait > 8)
 			{
 				npc->act_no = 2;
 				npc->ani_no = 0;
@@ -1816,7 +1816,7 @@ void ActNpc079(NPCHAR *npc)
 	}
 
 	npc->ym += 0x40;
-	if ( npc->ym > 0x5FF )
+	if (npc->ym > 0x5FF)
 		npc->ym = 0x5FF;
 
 	npc->y += npc->ym;

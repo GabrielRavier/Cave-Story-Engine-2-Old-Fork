@@ -365,7 +365,7 @@ void ActNpc283(NPCHAR *npc)
 
 			if (npc->act_wait % 6 == 1)
 			{
-				if ( npc->count2 == 289 )
+				if (npc->count2 == 289)
 				{
 					x = npc->x + (Random(-0x40, 0x40) * 0x200);
 					y = npc->y + (Random(-0x20, 0x20) * 0x200);
@@ -1649,7 +1649,7 @@ void ActNpc298(NPCHAR *npc)
 				++npc->ani_no;
 			}
 
-			if ( npc->ani_no > 5 )
+			if (npc->ani_no > 5)
 				npc->ani_no = 2;
 
 			npc->x += 0x100;

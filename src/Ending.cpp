@@ -303,13 +303,13 @@ void ActionCredit_Read()
 				if (GetNPCFlag(a))
 				{
 					//Jump to label
-					while ( Credit.offset < Credit.size )
+					while (Credit.offset < Credit.size)
 					{
 						if (Credit.pData[Credit.offset] == 'l')
 						{
 							a = GetScriptNumber(&Credit.pData[++Credit.offset]);
 							Credit.offset += 4;
-							if ( b == a )
+							if (b == a)
 								return;
 						}
 						else if (IsShiftJIS(Credit.pData[Credit.offset]))

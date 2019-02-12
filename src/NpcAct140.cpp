@@ -1153,7 +1153,7 @@ void ActNpc150(NPCHAR *npc)
 			if (npc->ani_no > 6)
 				npc->ani_no = 3;
 			
-			if ( npc->direct )
+			if (npc->direct)
 				npc->x += 0x200;
 			else
 				npc->x -= 0x200;
@@ -1176,7 +1176,7 @@ void ActNpc150(NPCHAR *npc)
 			npc->ani_wait = 0;
 			// Fallthrough
 		case 0x47:
-			if ( npc->direct )
+			if (npc->direct)
 				npc->x -= 0x100;
 			else
 				npc->x += 0x100;
@@ -1382,7 +1382,7 @@ void ActNpc153(NPCHAR *npc)
 				break;
 
 			case 2:
-				if ( ++npc->act_wait > 20 )
+				if (++npc->act_wait > 20)
 				{
 					npc->act_no = 1;
 					npc->ani_no = 0;

@@ -53,7 +53,7 @@ static void ActBossChar03_01(NPCHAR *npc)
 				++npc->ani_no;
 			}
 
-			if ( npc->ani_no > 3 )
+			if (npc->ani_no > 3)
 				npc->ani_no = 2;
 
 			npc->xm -= 0x20;
@@ -98,7 +98,7 @@ static void ActBossChar03_01(NPCHAR *npc)
 				++npc->ani_no;
 			}
 
-			if ( npc->ani_no > 5 )
+			if (npc->ani_no > 5)
 				npc->ani_no = 4;
 
 			npc->xm += 0x20;

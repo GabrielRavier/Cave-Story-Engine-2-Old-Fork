@@ -477,7 +477,7 @@ void ActBossChar_Twin(void)
 				}
 			}
 
-			if ( gBoss[0].count1 > 0x3FF )
+			if (gBoss[0].count1 > 0x3FF)
 				gBoss[0].count1 -= 0x400;
 
 			break;

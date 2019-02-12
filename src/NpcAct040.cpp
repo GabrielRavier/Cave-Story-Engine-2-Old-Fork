@@ -33,7 +33,7 @@ void ActNpc040(NPCHAR *npc)
 	rcRight[5] = {0, 48, 16, 64};
 	rcRight[6] = {64, 48, 80, 64};
 	
-	switch ( npc->act_no )
+	switch (npc->act_no)
 	{
 		case 0:
 			npc->act_no = 1;
@@ -266,7 +266,8 @@ void ActNpc042(NPCHAR *npc)
 			npc->act_no = 14;
 
 			int i;
-			for (i = 0; i < 0x200 && gNPC[i].code_event != 501; ++i);
+			for (i = 0; i < 0x200 && gNPC[i].code_event != 501; ++i)
+				;
 
 			if (i == 0x200)
 			{
@@ -535,7 +536,7 @@ void ActNpc044(NPCHAR *npc)
 				npc->xm += 0x100;
 			}
 
-			if ( npc->flag & 4 )
+			if (npc->flag & 4)
 				npc->act_no = 9;
 
 			break;
@@ -624,7 +625,7 @@ void ActNpc045(NPCHAR *npc)
 			// Fallthrough
 		case 1:
 		case 2:
-			if ( ++npc->ani_no > 2 )
+			if (++npc->ani_no > 2)
 				npc->ani_no = 1;
 
 			break;
@@ -693,7 +694,7 @@ void ActNpc046(NPCHAR *npc)
 //Sandcroc
 void ActNpc047(NPCHAR *npc)
 {
-	switch ( npc->act_no )
+	switch (npc->act_no)
 	{
 		case 0:
 			npc->ani_no = 0;
@@ -1775,7 +1776,7 @@ void ActNpc058(NPCHAR *npc)
 	switch (npc->act_no)
 	{
 		case 0:
-			if ( gMC.x >= npc->x + 0x2000 || gMC.x <= npc->x - 0x2000 )
+			if (gMC.x >= npc->x + 0x2000 || gMC.x <= npc->x - 0x2000)
 			{
 				npc->rect.right = 0;
 				npc->damage = 0;

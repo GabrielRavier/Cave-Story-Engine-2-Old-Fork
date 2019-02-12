@@ -125,7 +125,7 @@ void ActNpc221(NPCHAR *npc)
 		case 11:
 			if (npc->direct == 0 && npc->flag & 1)
 				npc->direct = 2;
-			else if ( npc->direct == 2 && npc->flag & 4 )
+			else if (npc->direct == 2 && npc->flag & 4)
 				npc->direct = 0;
 
 			if (npc->direct == 0)
@@ -264,7 +264,7 @@ void ActNpc224(NPCHAR *npc)
 			break;
 
 		case 2:
-			if (++npc->act_wait > 12 )
+			if (++npc->act_wait > 12)
 			{
 				npc->act_no = 1;
 				npc->ani_no = 0;
@@ -317,7 +317,7 @@ void ActNpc225(NPCHAR *npc)
 			break;
 
 		case 2:
-			if (++npc->act_wait > 12 )
+			if (++npc->act_wait > 12)
 			{
 				npc->act_no = 1;
 				npc->ani_no = 0;
@@ -839,7 +839,7 @@ void ActNpc233(NPCHAR *npc)
 			npc->ani_no = 0;
 	}
 
-	if ( npc->direct == 0)
+	if (npc->direct == 0)
 		npc->rect = rcLeft[npc->ani_no];
 	else
 		npc->rect = rcRight[npc->ani_no];

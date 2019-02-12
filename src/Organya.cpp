@@ -356,7 +356,7 @@ void OrganyaPlayData()
 			play_np[i] = play_np[i]->to;
 		}
 		
-		if (now_leng[i] == 0 )
+		if (now_leng[i] == 0)
 			PlayOrganObject(0, 2, i, info.tdata[i].freq);
 		
 		if (now_leng[i] > 0)

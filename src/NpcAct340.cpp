@@ -931,7 +931,7 @@ void ActNpc345(NPCHAR *npc)
 		case 110:
 			npc->ym += 0x40;
 
-			if ( npc->y > (gMap.length + 2) * 0x2000)
+			if (npc->y > (gMap.length + 2) * 0x2000)
 			{
 				npc->cond = 0;
 				return;
@@ -1272,12 +1272,12 @@ void ActNpc350(NPCHAR *npc)
 
 			if (npc->direct == 0)
 			{
-				if ( npc->x < npc->tgt_x )
+				if (npc->x < npc->tgt_x)
 					npc->act_no = 20;
 			}
 			else
 			{
-				if ( npc->x > npc->tgt_x )
+				if (npc->x > npc->tgt_x)
 					npc->act_no = 20;
 			}
 
@@ -1298,10 +1298,10 @@ void ActNpc350(NPCHAR *npc)
 					npc->ani_no = 2;
 			}
 
-			if ( ++npc->act_wait > 300 )
+			if (++npc->act_wait > 300)
 				npc->act_no = 30;
 
-			if ( gMC.x < npc->x + 0xE000 && gMC.x > npc->x - 0xE000 && gMC.y < npc->y + 0x2000 && gMC.y > npc->y - 0x2000 )
+			if (gMC.x < npc->x + 0xE000 && gMC.x > npc->x - 0xE000 && gMC.y < npc->y + 0x2000 && gMC.y > npc->y - 0x2000)
 				npc->act_no = 30;
 
 			break;

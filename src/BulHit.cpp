@@ -225,7 +225,7 @@ int JudgeHitBulletTriangleE(int x, int y, BULLET *bul)
 	if (bul->x < (2 * x + 1) << 12
 		&& bul->x - 0x200 > (2 * x - 1) << 12
 		&& bul->y + 0x400 > (y << 13) + (-0x2000 * x + bul->x) / 2 - 0x800
-		&& bul->y - 0x400 < (2 * y + 1) << 12 )
+		&& bul->y - 0x400 < (2 * y + 1) << 12)
 	{
 		if (bul->bbits & 8)
 			bul->y = (y << 13) + (-0x2000 * x + bul->x) / 2 - 0xC00;
@@ -276,7 +276,7 @@ int JudgeHitBulletTriangleH(int x, int y, BULLET *bul)
 	if (bul->x < (2 * x + 1) << 12
 		&& bul->x > (2 * x - 1) << 12
 		&& bul->y + 0x400 > (y << 13) - (-0x2000 * x + bul->x) / 2 - 0x800
-		&& bul->y - 0x400 < (2 * y + 1) << 12 )
+		&& bul->y - 0x400 < (2 * y + 1) << 12)
 	{
 		if (bul->bbits & 8)
 			bul->y = (y << 13) - (-0x2000 * x + bul->x) / 2 - 0xC00;

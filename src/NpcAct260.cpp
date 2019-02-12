@@ -106,7 +106,7 @@ void ActNpc261(NPCHAR *npc)
 			break;
 
 		case 2:
-			if (++npc->act_wait > 12 )
+			if (++npc->act_wait > 12)
 			{
 				npc->act_no = 1;
 				npc->ani_no = 0;
@@ -346,7 +346,7 @@ void ActNpc263(NPCHAR *npc)
 			break;
 
 		case 102:
-			if (++npc->act_wait > 40 )
+			if (++npc->act_wait > 40)
 			{
 				npc->act_no = 103;
 				npc->act_wait = 16;
@@ -366,7 +366,7 @@ void ActNpc263(NPCHAR *npc)
 		case 103:
 			npc->act_wait -= 2;
 
-			if ( npc->act_wait <= 0 )
+			if (npc->act_wait <= 0)
 			{
 				npc->bits |= 0x20;
 				npc->damage = 3;
@@ -812,7 +812,7 @@ void ActNpc267(NPCHAR *npc)
 				PlaySoundObject(39, 1);
 			}
 
-			if ( npc->act_wait > 90 )
+			if (npc->act_wait > 90)
 				npc->act_no = 10;
 
 			break;
@@ -939,12 +939,12 @@ void ActNpc267(NPCHAR *npc)
 				npc->tgt_x = gMC.x;
 				npc->tgt_y = gMC.y - 0x4000;
 
-				if ( npc->tgt_y < 0x8000 )
+				if (npc->tgt_y < 0x8000)
 					npc->tgt_y = 0x8000;
 
-				if ( npc->tgt_x < 0x8000 )
+				if (npc->tgt_x < 0x8000)
 					npc->tgt_x = 0x8000;
-				if ( npc->tgt_x > 0x48000 )
+				if (npc->tgt_x > 0x48000)
 					npc->tgt_x = 0x48000;
 			}
 
@@ -1394,7 +1394,7 @@ void ActNpc270(NPCHAR *npc)
 		if (npc->flag & 0xFF)
 			npc->cond = 0;
 	}
-	else if ( npc->direct == 2 )
+	else if (npc->direct == 2)
 	{
 		if (npc->act_no == 0)
 		{
@@ -2055,7 +2055,7 @@ void ActNpc278(NPCHAR *npc)
 		case 11:
 			if (npc->direct == 0 && (npc->flag & 1))
 				npc->direct = 2;
-			else if ( npc->direct == 2 && npc->flag & 4 )
+			else if (npc->direct == 2 && npc->flag & 4)
 				npc->direct = 0;
 
 			if (npc->direct == 0)

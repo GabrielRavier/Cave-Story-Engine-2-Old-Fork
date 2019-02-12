@@ -84,7 +84,7 @@ void EncryptionBinaryData2(uint8_t *pData, int size)
 	
 	for (int i = 0; i < size; i++)
 	{
-		if ( i != half )
+		if (i != half)
 			pData[i] += val1;
 	}
 }
@@ -464,7 +464,7 @@ void PutTextScript()
 		RECT rect_yesno = {152, 48, 244, 80};
 		RECT rect_cur = {112, 88, 128, 104};
 		
-		if (gTS.mode == 6 )
+		if (gTS.mode == 6)
 		{
 			int i;
 			if (gTS.wait > 1)

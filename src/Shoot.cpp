@@ -416,7 +416,7 @@ void ShootBullet_Missile(int level, bool bSuper)
 			if (CountArmsBullet(5) >= 2 || CountArmsBullet(6) >= 2)
 				return;
 		}
-		else if ( level == 3 )
+		else if (level == 3)
 		{
 			if (CountArmsBullet(5) >= 4 || CountArmsBullet(6) >= 4)
 				return;

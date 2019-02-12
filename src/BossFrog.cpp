@@ -403,7 +403,7 @@ void ActBossChar_Frog(void)
 					gBoss->act_no = 110;
 				}
 
-				if ( gBoss->direct == 2 && gMC.x < gBoss->x)
+				if (gBoss->direct == 2 && gMC.x < gBoss->x)
 				{
 					gBoss->direct = 0;
 					gBoss->act_no = 110;

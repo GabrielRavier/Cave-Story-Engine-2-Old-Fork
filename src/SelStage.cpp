@@ -38,7 +38,8 @@ bool AddPermitStage(int index, int event)
 bool SubPermitStage(int index)
 {
 	int i;
-	for (i = 0; i < 8 && gPermitStage[i].index != index; ++i);
+	for (i = 0; i < 8 && gPermitStage[i].index != index; ++i)
+		;
 
 #ifdef FIX_BUGS
 	if (i != 8)
@@ -65,7 +66,8 @@ bool SubPermitStage(int index)
 void MoveStageSelectCursor(void)
 {
 	int stage_num;
-	for (stage_num = 0; gPermitStage[stage_num].index != 0; ++stage_num);
+	for (stage_num = 0; gPermitStage[stage_num].index != 0; ++stage_num)
+		;
 
 	if (stage_num)
 	{
@@ -108,7 +110,8 @@ void PutStageSelectObject(void)
 	PutBitmap3(&rcView, (WINDOW_WIDTH / 2) - 32, gStageSelectTitleY, &rcTitle1, SURFACE_ID_TEXT_BOX);
 
 	int stage_num;
-	for (stage_num = 0; gPermitStage[stage_num].index; ++stage_num);
+	for (stage_num = 0; gPermitStage[stage_num].index; ++stage_num)
+		;
 
 	++flash;
 

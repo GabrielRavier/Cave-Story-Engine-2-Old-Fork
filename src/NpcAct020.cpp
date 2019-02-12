@@ -392,7 +392,7 @@ void ActNpc025(NPCHAR *npc)
 			break;
 	}
 
-	switch ( npc->act_no )
+	switch (npc->act_no)
 	{
 		case 2:
 		case 4:
@@ -589,7 +589,7 @@ void ActNpc028(NPCHAR *npc)
 				npc->act_wait = 0;
 			}
 
-			if ( npc->act_wait >= 8 && gMC.x > npc->x - 0xC000 && gMC.x < npc->x + 0xC000 && gMC.y > npc->y - 0xC000 && gMC.y < npc->y + 0x6000)
+			if (npc->act_wait >= 8 && gMC.x > npc->x - 0xC000 && gMC.x < npc->x + 0xC000 && gMC.y > npc->y - 0xC000 && gMC.y < npc->y + 0x6000)
 			{
 				npc->act_no = 2;
 				npc->ani_no = 0;
@@ -957,7 +957,7 @@ void ActNpc032(NPCHAR *npc)
 		++npc->ani_no;
 	}
 
-	if ( npc->ani_no > 1 )
+	if (npc->ani_no > 1)
 		npc->ani_no = 0;
 
 	npc->rect = rect[npc->ani_no];

@@ -96,7 +96,7 @@ void ActNpc200(NPCHAR *npc)
 		case 31:
 			if (++npc->act_wait < 40 && npc->act_wait % 8 == 1)
 			{
-				const unsigned char deg = npc->direct ? GetArktan(npc->x + 0x1C00 - npc->tgt_x, npc->y - npc->tgt_y) : GetArktan( npc->x - 0x1C00 - npc->tgt_x, npc->y - npc->tgt_y) + Random(-6, 6);
+				const unsigned char deg = npc->direct ? GetArktan(npc->x + 0x1C00 - npc->tgt_x, npc->y - npc->tgt_y) : GetArktan(npc->x - 0x1C00 - npc->tgt_x, npc->y - npc->tgt_y) + Random(-6, 6);
 				const int ym = 3 * GetSin(deg);
 				const int xm = 3 * GetCos(deg);
 
@@ -168,7 +168,7 @@ void ActNpc202(NPCHAR *npc)
 		++npc->ani_no;
 	}
 
-	if ( npc->ani_no > 2 )
+	if (npc->ani_no > 2)
 		npc->ani_no = 0;
 
 	npc->rect = rect_left[npc->ani_no];
@@ -212,7 +212,7 @@ void ActNpc203(NPCHAR *npc)
 			}
 			else
 			{
-				if ( npc->act_wait < 8 )
+				if (npc->act_wait < 8)
 					++npc->act_wait;
 				npc->ani_no = 0;
 			}
@@ -1141,7 +1141,7 @@ void ActNpc213(NPCHAR *npc)
 		else
 			npc->y += npc->ym;
 
-		if ( gMC.y > npc->tgt_y + 0x1E000 || gMC.y < npc->tgt_y - 0x1E000 )
+		if (gMC.y > npc->tgt_y + 0x1E000 || gMC.y < npc->tgt_y - 0x1E000)
 			npc->act_no = 40;
 	}
 
@@ -1466,7 +1466,7 @@ void ActNpc219(NPCHAR *npc)
 
 	rc[0] = {0, 0, 0, 0};
 
-	if ( npc->direct )
+	if (npc->direct)
 		SetNpChar(199, npc->x + (Random(-0xA0, 0xA0) * 0x200), npc->y + (Random(-0x80, 0x80) * 0x200), 0, 0, 2, 0, 0x100);
 	else if (Random(0, 40) == 1)
 		SetNpChar(4, npc->x + (Random(-20, 20) * 0x200), npc->y, 0, -0x200, 0, 0, 0x100);

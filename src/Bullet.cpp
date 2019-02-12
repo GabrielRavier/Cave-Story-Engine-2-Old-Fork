@@ -337,13 +337,13 @@ void ActBullet_Frontia2(BULLET *bul, int level)
 			}
 		}
 
-		if ( ++bul->ani_wait > 0 )
+		if (++bul->ani_wait > 0)
 		{
 			bul->ani_wait = 0;
 			++bul->ani_no;
 		}
 
-		if ( bul->ani_no > 2 )
+		if (bul->ani_no > 2)
 			bul->ani_no = 0;
 
 		RECT rect[3];
@@ -622,7 +622,7 @@ void ActBullet_MachineGun(BULLET *bul, int level)
 			bul->x += bul->xm;
 			bul->y += bul->ym;
 			
-			switch ( level )
+			switch (level)
 			{
 				case 1:
 					bul->rect = rect1[bul->direct];
@@ -901,7 +901,7 @@ void ActBullet_Bom(BULLET *bul, int level)
 		case 0:
 			bul->act_no = 1;
 			
-			switch ( level )
+			switch (level)
 			{
 				case 2:
 					bul->act_wait = 15;
@@ -1484,7 +1484,7 @@ void ActBullet_Sword3(BULLET *bul)
 					SetBullet(23, bul->x, bul->y, 2);
 			}
 
-			if ( ++bul->count1 == 5 )
+			if (++bul->count1 == 5)
 				bul->bbits &= ~4u;
 
 			if (bul->count1 > bul->life_count)
@@ -1754,7 +1754,7 @@ void ActBullet_SuperMissile(BULLET *bul, int level)
 
 			if (bul->xm < -0x1400)
 				bul->xm = -0x1400;
-			if (bul->xm > 0x1400 )
+			if (bul->xm > 0x1400)
 				bul->xm = 0x1400;
 
 			if (bul->ym < -0x1400)
@@ -2089,11 +2089,11 @@ void ActBullet_Spur(BULLET *bul, int level)
 
 void ActBullet_SpurTail(BULLET *bul, int level)
 {
-	if ( ++bul->count1 > 20 )
+	if (++bul->count1 > 20)
 		bul->ani_no = bul->count1 - 20;
-	if ( bul->ani_no > 2 )
+	if (bul->ani_no > 2)
 		bul->cond = 0;
-	if ( bul->damage && bul->life != 100 )
+	if (bul->damage && bul->life != 100)
 		bul->damage = 0;
 
 	RECT rc_h_lv1[3];

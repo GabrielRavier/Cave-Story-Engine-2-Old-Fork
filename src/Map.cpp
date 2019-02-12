@@ -228,7 +228,7 @@ void PutMapDataVector(int fx, int fy)
 			{
 				RECT rect;
 				
-				switch ( atrb )
+				switch (atrb)
 				{
 					case 128:
 					case 160:

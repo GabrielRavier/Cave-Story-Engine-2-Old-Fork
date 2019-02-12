@@ -265,7 +265,8 @@ void PutActiveArmsList()
 	RECT rect = {0, 0, 0, 16};
 
 	int arms_num;
-	for (arms_num = 0; gArmsData[arms_num].code != 0; ++arms_num);
+	for (arms_num = 0; gArmsData[arms_num].code != 0; ++arms_num)
+		;
 	
 	if (arms_num)
 	{
