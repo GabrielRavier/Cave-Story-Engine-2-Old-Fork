@@ -12,12 +12,12 @@ else
 	EXECUTABLENAME_DEF = DoukutsuDebug
 	ifneq ($(CONSOLE), 0)
 		CONSOLE = 1
-	endif
+endif
 endif
 
 ifeq ($(JAPANESE), 1)
 	CXXFLAGS += -DJAPANESE
-	LIBS += -liconv
+
 	ifeq ($(RELEASE), 1)
 		EXECUTABLENAME_DEF = DoukutsuReleasejp
 	else
@@ -35,6 +35,10 @@ ifeq ($(WINDOWS), 1)
 	ifeq ($(CONSOLE), 1)
 		CXXFLAGS += -mconsole
 	endif
+	ifeq ($(JAPANESE), 1)
+		LIBS += -liconv
+	endif
+
 	CXXFLAGS += -DWINDOWS
 	LIBS += -lkernel32
 endif
@@ -207,6 +211,7 @@ endif
 
 OBJECTS = $(addprefix $(OBJFOLDER)/$(EXECUTABLENAME)/, $(addsuffix .o, $(SOURCES)))
 DEPENDENCIES := $(addsuffix .d, $(OBJS))
+DEPENDENCIES = $(addprefix obj/$(FILENAME)/, $(addsuffix .o.d, $(SOURCES)))
 
 ifeq ($(WINDOWS), 1)
 	OBJECTS += $(OBJFOLDER)/$(EXECUTABLENAME)/win_icon.o
@@ -229,9 +234,9 @@ dummyDataTarget:
 
 $(OBJFOLDER)/$(EXECUTABLENAME)/%.o: $(SOURCEFOLDER)/%.cpp
 	@mkdir -p $(@D)
-	@echo Compiling $^...
-	@$(CXX) $(CXXFLAGS) $^ -o $@ -c
-	@echo Finished compiling $^
+	@echo Compiling $<...
+	@$(CXX) $(CXXFLAGS) $< -o $@ -c
+	@echo Finished compiling $<
 
 $(OBJFOLDER)/$(EXECUTABLENAME)/Resource.o: $(SOURCEFOLDER)/Resource.cpp $(addprefix $(SOURCEFOLDER)/Resource/, $(addsuffix .h, $(RESOURCES)))
 	@mkdir -p $(@D)
