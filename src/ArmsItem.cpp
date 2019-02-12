@@ -37,12 +37,14 @@ bool AddArmsData(int code, int max_num)
 	{
 		if (gArmsData[i].code == code || !gArmsData[i].code)
 		{
+			// Ensure past data is erased
 			if (!gArmsData[i].code)
 			{
 				memset(&gArmsData[i], 0, sizeof(ARMS));
 				gArmsData[i].level = 1;
 			}
 			
+			// Set weapon and ammo
 			gArmsData[i].code = code;
 			gArmsData[i].max_num += max_num;
 			gArmsData[i].num += max_num;
@@ -61,7 +63,7 @@ bool SubArmsData(int code)
 	{
 		if (gArmsData[i].code == code)
 		{
-			//Shift all arms from the right to the left
+			// Shift all arms from the right to the left
 			int ia;
 			for (ia = i + 1; ia < ARMS_MAX; ++ia)
 			{
@@ -72,6 +74,7 @@ bool SubArmsData(int code)
 				gArmsData[ia - 1].num = gArmsData[ia].num;
 			}
 			
+			// Clear farthest weapon and select first weapon
 			gArmsData[ia - 1].code = 0;
 			gSelectedArms = 0;
 			return true;
@@ -119,7 +122,7 @@ bool SubItemData(int code)
 	{
 		if (gItemData[i].code == code)
 		{
-			//Shift all items from the right to the left
+			// Shift all items from the right to the left
 			int ia;
 			for (ia = i + 1; ia < ITEM_MAX; ++ia)
 				gItemData[ia - 1].code = gItemData[ia].code;
@@ -246,7 +249,7 @@ void MoveCampCursor()
 
 void PutCampObject()
 {
-	//Get rects
+	// Get rects
 	RECT rcPer = {72, 48, 80, 56};
 	RECT rcNone = {80, 48, 96, 56};
 	RECT rcLv = {80, 80, 96, 88};
@@ -263,22 +266,22 @@ void PutCampObject()
 	RECT rcBoxBody = {0, 8, 244, 16};
 	RECT rcBoxBottom = {0, 16, 244, 24};
 	
-	//Draw box
+	// Draw box
 	int y;
 	PutBitmap3(&rcView, (WINDOW_WIDTH - 244) / 2, (WINDOW_HEIGHT - 224) / 2, &rcBoxTop, 26);
 	for (y = 1; y < 18; y++)
 		PutBitmap3(&rcView, (WINDOW_WIDTH - 244) / 2, ((WINDOW_HEIGHT - 240) / 2) + (8 * (y + 1)), &rcBoxBody, 26);
 	PutBitmap3(&rcView, (WINDOW_WIDTH - 244) / 2, ((WINDOW_HEIGHT - 240) / 2) + (8 * (y + 1)), &rcBoxBottom, 26);
 	
-	//Move titles
+	// Move titles
 	if (gCampTitleY > (WINDOW_HEIGHT - 208) / 2)
 		--gCampTitleY;
 	
-	//Draw titles
+	// Draw titles
 	PutBitmap3(&rcView, (WINDOW_WIDTH - 224) / 2, gCampTitleY, &rcTitle1, 26);
 	PutBitmap3(&rcView, (WINDOW_WIDTH - 224) / 2, gCampTitleY + 52, &rcTitle2, 26);
 	
-	//Draw arms cursor
+	// Draw arms cursor
 	static int flash;
 	++flash;
 	
@@ -287,7 +290,7 @@ void PutCampObject()
 	else
 		PutBitmap3(&rcView, 40 * gSelectedArms + (WINDOW_WIDTH - 224) / 2, (WINDOW_HEIGHT / 2) - 96, &rcCur1[(flash >> 1) & 1], 26);
 	
-	//Draw arms
+	// Draw arms
 	for (int i = 0; i < ARMS_MAX && gArmsData[i].code; i++)
 	{
 		RECT rcArms;
@@ -301,7 +304,7 @@ void PutCampObject()
 		PutBitmap3(&rcView, 40 * i + (WINDOW_WIDTH - 224) / 2, (WINDOW_HEIGHT - 160) / 2, &rcLv, 26);
 		PutNumber4(40 * i + (WINDOW_WIDTH - 224) / 2, (WINDOW_HEIGHT - 160) / 2, gArmsData[i].level, 0);
 		
-		//Draw ammo
+		// Draw ammo
 		if (gArmsData[i].max_num)
 		{
 			PutNumber4(40 * i + (WINDOW_WIDTH - 224) / 2, (WINDOW_HEIGHT - 144) / 2, gArmsData[i].num, 0);
@@ -314,7 +317,7 @@ void PutCampObject()
 		}
 	}
 	
-	//Draw items cursor
+	// Draw items cursor
 	if (gCampActive)
 		PutBitmap3(&rcView, 32 * (gSelectedItem % 6) + (WINDOW_WIDTH - 224) / 2, 16 * (gSelectedItem / 6) + (WINDOW_HEIGHT - 88) / 2, &rcCur2[(flash >> 1) & 1], 26);
 	else
@@ -336,7 +339,7 @@ int CampLoop()
 {
 	RECT rcView = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
 	
-	//Load the inventory script
+	// Load the inventory script
 	char old_script_path[PATH_LENGTH];
 	GetTextScriptPath(old_script_path);
 	
@@ -348,7 +351,7 @@ int CampLoop()
 	gCampActive = 0;
 	gSelectedItem = 0;
 	
-	//Run script
+	// Run script
 	int arms_num;
 	for (arms_num = 0; gArmsData[arms_num].code != 0; arms_num++)
 		;
@@ -394,7 +397,7 @@ int CampLoop()
 			return 0;
 	}
 	
-	//Resume original script
+	// Resume original script
 	StopTextScript();
 	LoadTextScript_Stage(old_script_path);
 	gArmsEnergyX = 32;

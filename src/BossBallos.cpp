@@ -132,7 +132,7 @@ void ActBossChar_Ballos(void)
 
 	switch (gBoss[0].act_no)
 	{
-		case 0:
+		case 0:	// Initialise main boss
 			gBoss[0].act_no = 1;
 			gBoss[0].cond = 0x80;
 			gBoss[0].exp = 1;
@@ -150,6 +150,7 @@ void ActBossChar_Ballos(void)
 			gBoss[0].code_event = 1000;
 			gBoss[0].life = 800;
 
+			// Initialise eyes
 			gBoss[1].cond = 0x90;
 			gBoss[1].direct = 0;
 			gBoss[1].bits = 8;
@@ -166,6 +167,7 @@ void ActBossChar_Ballos(void)
 			gBoss[2] = gBoss[1];
 			gBoss[2].direct = 2;
 
+			// Initialise the body
 			gBoss[3].cond = 0x90;
 			gBoss[3].bits = 0xD;
 			gBoss[3].view.front = 0x7800;

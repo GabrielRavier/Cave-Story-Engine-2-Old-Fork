@@ -9,6 +9,7 @@
 #include "Triangle.h"
 #include "WindowsWrapper.h"
 
+// Balfrog's mouth
 static void ActBossChar02_01(void)
 {
 	int minus;
@@ -75,8 +76,10 @@ static void ActBossChar02_02(void)
 	}
 }
 
+// Main boss AI
 void ActBossChar_Frog(void)
 {
+	// Rects 1-4 are for when Balfrog's a frog, 5-8 for when he reverts and goes into the ceiling
 	RECT rcLeft[9];
 	RECT rcRight[9];
 
