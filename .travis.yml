@@ -1,1 +1,6 @@
 language: cpp
+compiler:
+    - gcc
+    - clang
+script:
+    - make -j 5 FIX_BUGS=1
