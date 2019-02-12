@@ -24,4 +24,4 @@ install:
 #    - "[ $CXX = clang++ ] && export CXX=clang++-6.0 || true"
 
 script:
-    - make -j 9 FIX_BUGS=1
+    - make -j 9 FIX_BUGS=1 ALL_WARNINGS=1
