@@ -1,6 +1,26 @@
 language: cpp
+dist: xenial
+
 compiler:
     - gcc
     - clang
+    
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise-3.8
+    packages:
+    - g++-8
+    - clang++-6.0
+    
+before_install:
+    - wget https://libsdl.org/release/SDL2-2.0.9.tar.gz -O - | tar xz
+    - cd SDL2-2.0.9 && ./configure && make -j 9 && sudo make install -j 9 && cd ..
+    
+install:
+    - "[ $CXX = g++ ] && export CXX=g++-8"
+    - "[ $CXX = clang++ ] && export CXX=clang++-6.0"
+
 script:
-    - make -j 5 FIX_BUGS=1
+    - make -j 9 FIX_BUGS=1
