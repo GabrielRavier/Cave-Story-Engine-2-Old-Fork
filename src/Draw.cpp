@@ -30,6 +30,9 @@
 RECT grcGame = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
 RECT grcFull = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
 
+int magnification;
+bool fullscreen;
+
 SURFACE surf[SURFACE_ID_MAX];
 
 FontObject *gFont;
@@ -62,6 +65,48 @@ bool Flip_SystemTask()
 
 	SDL_RenderPresent(gRenderer);
 	return true;
+}
+
+bool StartDirectDraw(int lMagnification, int lColourDepth)
+{
+	//Initialize rendering
+	SDL_InitSubSystem(SDL_INIT_VIDEO);
+	
+	//Create renderer
+	if (gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED))
+	{
+		switch (lMagnification)
+		{
+			case 0:
+				magnification = 1;
+				fullscreen = false;
+				break;
+				
+			case 1:
+				magnification = 2;
+				fullscreen = false;
+				break;
+				
+			case 2:
+				magnification = 2;
+				fullscreen = true;
+				SDL_SetWindowFullscreen(gWindow, SDL_WINDOW_FULLSCREEN);
+				break;
+		}
+		
+	}
+	
+	return true;
+}
+
+void EndDirectDraw()
+{
+	//Quit sub-system
+	SDL_QuitSubSystem(SDL_INIT_VIDEO);
+	
+	//Release all surfaces
+	for (int i = 0; i < SURFACE_ID_MAX; i++)
+		ReleaseSurface(i);
 }
 
 static bool IsEnableBitmap(SDL_RWops *fp)
@@ -109,7 +154,7 @@ bool MakeSurface_Generic(int bxsize, int bysize, int surf_no)
 		else
 		{
 			//Create surface
-			surf[surf_no].surface = SDL_CreateRGBSurfaceWithFormat(0, bxsize * gWindowScale, bysize * gWindowScale, 0, SDL_PIXELFORMAT_RGBA32);
+			surf[surf_no].surface = SDL_CreateRGBSurfaceWithFormat(0, bxsize * magnification, bysize * magnification, 0, SDL_PIXELFORMAT_RGBA32);
 
 			if (surf[surf_no].surface == NULL)
 			{
@@ -117,7 +162,7 @@ bool MakeSurface_Generic(int bxsize, int bysize, int surf_no)
 			}
 			else
 			{
-				surf[surf_no].texture = SDL_CreateTexture(gRenderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, bxsize * gWindowScale, bysize * gWindowScale);
+				surf[surf_no].texture = SDL_CreateTexture(gRenderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, bxsize * magnification, bysize * magnification);
 
 				if (surf[surf_no].texture == NULL)
 				{
@@ -189,20 +234,51 @@ static bool LoadBitmap(SDL_RWops *fp, int surf_no, bool create_surface)
 			{
 				if (create_surface == false || MakeSurface_Generic(surface->w, surface->h, surf_no))
 				{
-					SDL_Surface *converted_surface = SDL_ConvertSurface(surface, surf[surf_no].surface->format, 0);
-
-					if (converted_surface == NULL)
+					if (magnification == 1)
 					{
-						printf("Couldn't convert bitmap to surface format (surface id %d)\nSDL Error: %s\n", surf_no, SDL_GetError());
-					}
-					else
-					{
-						SDL_Rect dst_rect = {0, 0, converted_surface->w * gWindowScale, converted_surface->h * gWindowScale};
-						SDL_BlitScaled(converted_surface, NULL, surf[surf_no].surface, &dst_rect);
-						SDL_FreeSurface(converted_surface);
+						SDL_Rect dst_rect = {0, 0, surface->w, surface->h};
+						SDL_BlitSurface(surface, NULL, surf[surf_no].surface, &dst_rect);
+						SDL_FreeSurface(surface);
 						surf[surf_no].needs_updating = true;
 						printf(" ^ Successfully loaded\n");
 						success = true;
+					}
+					else
+					{
+						SDL_Surface *converted_surface = SDL_ConvertSurface(surface, surf[surf_no].surface->format, 0);
+
+						if (converted_surface == NULL)
+						{
+							printf("Couldn't convert bitmap to surface format (surface id %d)\nSDL Error: %s\n", surf_no, SDL_GetError());
+						}
+						else
+						{
+							// Upscale the bitmap to the game's native resolution (SDL_BlitScaled is buggy, so we have to do it on our own)
+							const unsigned char (*src_pixels)[converted_surface->pitch] = (unsigned char(*)[converted_surface->pitch])converted_surface->pixels;
+							unsigned char (*dst_pixels)[surf[surf_no].surface->pitch] = (unsigned char(*)[surf[surf_no].surface->pitch])surf[surf_no].surface->pixels;
+
+							for (int h = 0; h < converted_surface->h; ++h)
+							{
+								const unsigned long *src_row = (unsigned long*)src_pixels[h];
+								unsigned long *dst_row = (unsigned long*)dst_pixels[h * magnification];
+
+								for (int w = 0; w < converted_surface->w; ++w)
+								{
+									const unsigned long src_pixel = *src_row++;
+
+									for (int i = 0; i < magnification; ++i)
+										*dst_row++ = src_pixel;
+								}
+
+								for (int i = 1; i < magnification; ++i)
+									memcpy(dst_pixels[(h * magnification) + i], dst_pixels[h * magnification], surf[surf_no].surface->w * sizeof(unsigned long));
+							}
+
+							SDL_FreeSurface(converted_surface);
+							surf[surf_no].needs_updating = true;
+							printf(" ^ Successfully loaded\n");
+							success = true;
+						}
 					}
 				}
 
@@ -307,7 +383,7 @@ void BackupSurface(int surf_no, RECT *rect)
 
 	//Get rects
 	SDL_Rect frameRect = RectToSDLRect(rect);
-	frameRect = {frameRect.x * gWindowScale, frameRect.y * gWindowScale, frameRect.w * gWindowScale, frameRect.h * gWindowScale};
+	frameRect = {frameRect.x * magnification, frameRect.y * magnification, frameRect.w * magnification, frameRect.h * magnification};
 
 	SDL_BlitSurface(surface, &frameRect, surf[surf_no].surface, &frameRect);
 	surf[surf_no].needs_updating = true;
@@ -328,13 +404,13 @@ static void DrawBitmap(RECT *rcView, int x, int y, RECT *rect, int surf_no, bool
 	SDL_Rect clipRect = RectToSDLRect(rcView);
 	
 	SDL_Rect frameRect = RectToSDLRect(rect);
-	frameRect = {frameRect.x * gWindowScale, frameRect.y * gWindowScale, frameRect.w * gWindowScale, frameRect.h * gWindowScale};
+	frameRect = {frameRect.x * magnification, frameRect.y * magnification, frameRect.w * magnification, frameRect.h * magnification};
 	
 	//Get dest rect
-	SDL_Rect destRect = {x * gWindowScale, y * gWindowScale, frameRect.w, frameRect.h};
+	SDL_Rect destRect = {x * magnification, y * magnification, frameRect.w, frameRect.h};
 	
 	//Set cliprect
-	clipRect = {clipRect.x * gWindowScale, clipRect.y * gWindowScale, clipRect.w * gWindowScale, clipRect.h * gWindowScale};
+	clipRect = {clipRect.x * magnification, clipRect.y * magnification, clipRect.w * magnification, clipRect.h * magnification};
 	SDL_RenderSetClipRect(gRenderer, &clipRect);
 	
 	SDL_SetTextureBlendMode(surf[surf_no].texture, transparent ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE);
@@ -360,9 +436,9 @@ void PutBitmap4(RECT *rcView, int x, int y, RECT *rect, int surf_no) //No Transp
 void Surface2Surface(int x, int y, RECT *rect, int to, int from)
 {
 	//Get rects
-	SDL_Rect rcSet = {x * gWindowScale, y * gWindowScale, (rect->right - rect->left) * gWindowScale, (rect->bottom - rect->top) * gWindowScale};
+	SDL_Rect rcSet = {x * magnification, y * magnification, (rect->right - rect->left) * magnification, (rect->bottom - rect->top) * magnification};
 	SDL_Rect frameRect = RectToSDLRect(rect);
-	frameRect = {frameRect.x * gWindowScale, frameRect.y * gWindowScale, frameRect.w * gWindowScale, frameRect.h * gWindowScale};
+	frameRect = {frameRect.x * magnification, frameRect.y * magnification, frameRect.w * magnification, frameRect.h * magnification};
 
 	SDL_BlitSurface(surf[from].surface, &frameRect, surf[to].surface, &rcSet);
 	surf[to].needs_updating = true;
@@ -372,7 +448,7 @@ void CortBox(RECT *rect, uint32_t col)
 {
 	//Get rect
 	SDL_Rect destRect = RectToSDLRect(rect);
-	destRect = {destRect.x * gWindowScale, destRect.y * gWindowScale, destRect.w * gWindowScale, destRect.h * gWindowScale};
+	destRect = {destRect.x * magnification, destRect.y * magnification, destRect.w * magnification, destRect.h * magnification};
 	
 	//Set colour and draw
 	SDL_SetRenderDrawColor(gRenderer, (col & 0xFF0000) >> 16, (col & 0x00FF00) >> 8, col & 0x0000FF, 0xFF);
@@ -383,7 +459,7 @@ void CortBox2(RECT *rect, uint32_t col, int surf_no)
 {
 	//Get rect
 	SDL_Rect destRect = RectToSDLRect(rect);
-	destRect = {destRect.x * gWindowScale, destRect.y * gWindowScale, destRect.w * gWindowScale, destRect.h * gWindowScale};
+	destRect = {destRect.x * magnification, destRect.y * magnification, destRect.w * magnification, destRect.h * magnification};
 
 	const unsigned char col_red = (col & 0xFF0000) >> 16;
 	const unsigned char col_green = (col & 0x00FF00) >> 8;
@@ -445,15 +521,15 @@ void InitTextObject(const char *font_name)
 	unsigned int fontWidth, fontHeight;
 
 	// The original did this, but Windows would downscale it to 5/10 anyway.
-/*	if (gWindowScale == 1)
+/*	if (magnification == 1)
 	{
 		fontWidth = 6;
 		fontHeight = 12;
 	}
 	else
 	{*/
-		fontWidth = 5 * gWindowScale;
-		fontHeight = 10 * gWindowScale;
+		fontWidth = 5 * magnification;
+		fontHeight = 10 * magnification;
 //	}
 	
 #ifdef WINDOWS
@@ -493,7 +569,7 @@ void PutText(int x, int y, const char *text, uint32_t color)
 	SDL_Surface *surface = SDL_CreateRGBSurfaceWithFormat(0, surface_width, surface_height, 0, SDL_PIXELFORMAT_RGBA32);
 	SDL_RenderReadPixels(gRenderer, NULL, SDL_PIXELFORMAT_RGBA32, surface->pixels, surface->pitch);
 
-	DrawText(gFont, surface, x * gWindowScale, y * gWindowScale, color, text, strlen(text));
+	DrawText(gFont, surface, x * magnification, y * magnification, color, text, strlen(text));
 
 	SDL_Texture *screen_texture = SDL_CreateTextureFromSurface(gRenderer, surface);
 	SDL_FreeSurface(surface);
@@ -503,7 +579,7 @@ void PutText(int x, int y, const char *text, uint32_t color)
 
 void PutText2(int x, int y, const char *text, uint32_t color, int surf_no)
 {
-	DrawText(gFont, surf[surf_no].surface, x * gWindowScale, y * gWindowScale, color, text, strlen(text));
+	DrawText(gFont, surf[surf_no].surface, x * magnification, y * magnification, color, text, strlen(text));
 	surf[surf_no].needs_updating = true;
 }
 
@@ -512,18 +588,4 @@ void EndTextObject()
 	//Destroy font
 	UnloadFont(gFont);
 	gFont = nullptr;
-}
-
-bool StartDirectDraw()
-{
-	//Create renderer
-	gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
-	return true;
-}
-
-void EndDirectDraw()
-{
-	//Release all surfaces
-	for (int i = 0; i < SURFACE_ID_MAX; i++)
-		ReleaseSurface(i);
 }
