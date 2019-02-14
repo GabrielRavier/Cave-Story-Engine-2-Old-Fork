@@ -47,8 +47,8 @@ ifeq ($(WARNINGS), 1)
 	CXXFLAGS += -Wall -Wextra
 endif
 
-ifeq ($(ALL_WARNINGS), 1)
-	ifeq($(patsubst clang%,clang,$(CXX)), clang)
+ifeq ($(ALL_WARNINGS),1)
+	ifneq ($(findstring clang,$(CXX)),)
 		# Use clang-specific flag -Weverything
 		CXXFLAGS += -Weverything
 	else
