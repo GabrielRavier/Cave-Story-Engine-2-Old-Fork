@@ -1,10 +1,8 @@
-# Cave Story Recoded 2
+# Cave Story Engine 2
 
-Cave Story Recoded 2 is an in-progress enhanced version of Cave Story Engine 2, enhanced to facilitate modding. Right now, this project is partially on hold while we're waiting for Cave Story Engine 2 to be a basically finished project.
+Cave Story Engine is an in-progress decompilation of Cave Story, ported from DirectX to SDL2.
 
 ![Screenshot](screenshot.png)
-
-Rest of the original Cave Story Engine 2 description follows (see also https://github.com/cuckydev/Cave-Story-Engine-2/blob/master/README.md) :
 
 ## Disclaimer
 
