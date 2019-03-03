@@ -1,3 +1,5 @@
+#include "Profile.h"
+
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -5,23 +7,22 @@
 
 #include "WindowsWrapper.h"
 
-#include "CommonDefines.h"
-#include "Tags.h"
-#include "Profile.h"
-#include "Fade.h"
 #include "ArmsItem.h"
+#include "BossLife.h"
+#include "CommonDefines.h"
+#include "Fade.h"
+#include "File.h"
 #include "Flags.h"
+#include "Frame.h"
+#include "Game.h"
 #include "MiniMap.h"
 #include "MyChar.h"
-#include "Star.h"
 #include "NpChar.h"
-#include "Frame.h"
 #include "SelStage.h"
-#include "ValueView.h"
 #include "Stage.h"
-#include "Game.h"
-#include "BossLife.h"
-#include "File.h"
+#include "Star.h"
+#include "Tags.h"
+#include "ValueView.h"
 
 const char *gDefaultName = "Profile.dat";
 const char *gProfileCode = "Do041220";
@@ -138,7 +139,12 @@ bool LoadProfile(char *name)
 	//Check header code
 	fread(profile.code, 8, 1, fp);
 	if (memcmp(profile.code, gProfileCode, 8))
+	{
+#ifdef FIX_BUGS
+		fclose(fp);	// The original game forgets to close the file
+#endif
 		return false;
+	}
 	
 	//Read data
 	fseek(fp, 0, SEEK_SET); //Pixel epic redundant code 😎😎😎

@@ -1,11 +1,12 @@
 #include "BossIronH.h"
 
+#include "WindowsWrapper.h"
+
 #include "Boss.h"
 #include "Frame.h"
 #include "Game.h"
 #include "MyChar.h"
 #include "Sound.h"
-#include "WindowsWrapper.h"
 
 void ActBossChar_Ironhead(void)
 {
@@ -163,33 +164,34 @@ void ActBossChar_Ironhead(void)
 			gBoss[0].y = gBoss[0].tgt_y + (Random(-1, 1) * 0x200);
 
 			if (++gBoss[0].act_wait % 4 == 0)
-				SetNpChar(4, gBoss[0].x + (Random(-0x80u, 0x80) * 0x200), gBoss[0].y + (Random(-0x40u, 0x40) * 0x200), Random(-0x80, 0x80) * 0x200, Random(-0x80, 0x80) * 0x200, 0, 0, 0x100);
+				SetNpChar(4, gBoss[0].x + (Random(-0x80, 0x80) * 0x200), gBoss[0].y + (Random(-0x40, 0x40) * 0x200), Random(-0x80, 0x80) * 0x200, Random(-0x80, 0x80) * 0x200, 0, 0, 0x100);
 
 			break;
 	}
 
-	RECT rc[9];
-	RECT rcDamage[9];
+	RECT rc[9] = {
+		{0, 0, 64, 24},
+		{64, 0, 128, 24},
+		{128, 0, 192, 24},
+		{64, 0, 128, 24},
+		{0, 0, 64, 24},
+		{192, 0, 256, 24},
+		{256, 0, 320, 24},
+		{192, 0, 256, 24},
+		{256, 48, 320, 72},
+	};
 
-	rc[0] = {0, 0, 64, 24};
-	rc[1] = {64, 0, 128, 24};
-	rc[2] = {128, 0, 192, 24};
-	rc[3] = {64, 0, 128, 24};
-	rc[4] = {0, 0, 64, 24};
-	rc[5] = {192, 0, 256, 24};
-	rc[6] = {256, 0, 320, 24};
-	rc[7] = {192, 0, 256, 24};
-	rc[8] = {256, 48, 320, 72};
-
-	rcDamage[0] = {0, 24, 64, 48};
-	rcDamage[1] = {64, 24, 128, 48};
-	rcDamage[2] = {128, 24, 192, 48};
-	rcDamage[3] = {64, 24, 128, 48};
-	rcDamage[4] = {0, 24, 64, 48};
-	rcDamage[5] = {192, 24, 256, 48};
-	rcDamage[6] = {256, 24, 320, 48};
-	rcDamage[7] = {192, 24, 256, 48};
-	rcDamage[8] = {256, 48, 320, 72};
+	RECT rcDamage[9] = {
+		{0, 24, 64, 48},
+		{64, 24, 128, 48},
+		{128, 24, 192, 48},
+		{64, 24, 128, 48},
+		{0, 24, 64, 48},
+		{192, 24, 256, 48},
+		{256, 24, 320, 48},
+		{192, 24, 256, 48},
+		{256, 48, 320, 72},
+	};
 
 	if (gBoss[0].shock)
 	{

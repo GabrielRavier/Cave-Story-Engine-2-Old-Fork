@@ -1,6 +1,6 @@
 #include "Font.h"
 
-#include <stdbool.h>
+#include <math.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -175,7 +175,7 @@ void DrawText(FontObject *font_object, SDL_Surface *surface, int x, int y, unsig
 {
 	if (font_object != NULL)
 	{
-		const unsigned char colours[3] = {(unsigned char)(colour >> 16), (unsigned char)(colour >> 8), (unsigned char)colour};
+		const unsigned char colours[3] = {(unsigned char)colour, (unsigned char)(colour >> 8), (unsigned char)(colour >> 16)};
 
 		FT_Face face = font_object->face;
 
@@ -224,7 +224,7 @@ void DrawText(FontObject *font_object, SDL_Surface *surface, int x, int y, unsig
 			const int letter_x = x + pen_x + face->glyph->bitmap_left;
 			const int letter_y = y + ((FT_MulFix(face->ascender, face->size->metrics.y_scale) - face->glyph->metrics.horiBearingY + (64 / 2)) / 64);
 
-			for (int iy = MAX(-letter_y, 0); letter_y + iy < MIN(letter_y + converted.rows, (unsigned int)surface->h); ++iy)
+			for (int iy = MAX(-letter_y, 0); letter_y + iy < MIN(letter_y + (int)converted.rows, surface->h); ++iy)
 			{
 				if (face->glyph->bitmap.pixel_mode == FT_PIXEL_MODE_LCD)
 				{
@@ -238,7 +238,7 @@ void DrawText(FontObject *font_object, SDL_Surface *surface, int x, int y, unsig
 							for (unsigned int j = 0; j < 3; ++j)
 							{
 								const double alpha = pow((font_pixel[j] / 255.0), 1.0 / 1.8);			// Gamma correction
-								surface_pixel[j] = (colours[j] * alpha) + (surface_pixel[j] * (1.0 - alpha));	// Alpha blending
+								surface_pixel[j] = (unsigned char)((colours[j] * alpha) + (surface_pixel[j] * (1.0 - alpha)));	// Alpha blending
 							}
 
 							surface_pixel[3] = 0xFF;
@@ -258,7 +258,7 @@ void DrawText(FontObject *font_object, SDL_Surface *surface, int x, int y, unsig
 						if (alpha)
 						{
 							for (unsigned int j = 0; j < 3; ++j)
-								surface_pixel[j] = (colours[j] * alpha) + (surface_pixel[j] * (1.0 - alpha));	// Alpha blending
+								surface_pixel[j] = (unsigned char)((colours[j] * alpha) + (surface_pixel[j] * (1.0 - alpha)));	// Alpha blending
 
 							surface_pixel[3] = 0xFF;
 						}

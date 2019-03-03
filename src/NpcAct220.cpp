@@ -1,28 +1,29 @@
-#include "WindowsWrapper.h"
-
 #include "NpcAct.h"
 
-#include "MyChar.h"
-#include "NpChar.h"
-#include "Game.h"
-#include "Sound.h"
+#include "WindowsWrapper.h"
+
 #include "Back.h"
-#include "Triangle.h"
 #include "Bullet.h"
 #include "Caret.h"
 #include "Frame.h"
+#include "Game.h"
+#include "MyChar.h"
+#include "NpChar.h"
+#include "Sound.h"
+#include "Triangle.h"
 
 //Shovel Brigade
 void ActNpc220(NPCHAR *npc)
 {
-	RECT rcLeft[2];
-	RECT rcRight[2];
+	RECT rcLeft[2] = {
+		{0, 64, 16, 80},
+		{16, 64, 32, 80},
+	};
 
-	rcLeft[0] = {0, 64, 16, 80};
-	rcLeft[1] = {16, 64, 32, 80};
-
-	rcRight[0] = {0, 80, 16, 96};
-	rcRight[1] = {16, 80, 32, 96};
+	RECT rcRight[2] = {
+		{0, 80, 16, 96},
+		{16, 80, 32, 96},
+	};
 
 	switch (npc->act_no)
 	{
@@ -60,22 +61,23 @@ void ActNpc220(NPCHAR *npc)
 //Shovel Brigade (walking)
 void ActNpc221(NPCHAR *npc)
 {
-	RECT rcLeft[6];
-	RECT rcRight[6];
+	RECT rcLeft[6] = {
+		{0, 64, 16, 80},
+		{16, 64, 32, 80},
+		{32, 64, 48, 80},
+		{0, 64, 16, 80},
+		{48, 64, 64, 80},
+		{0, 64, 16, 80},
+	};
 
-	rcLeft[0] = {0, 64, 16, 80};
-	rcLeft[1] = {16, 64, 32, 80};
-	rcLeft[2] = {32, 64, 48, 80};
-	rcLeft[3] = {0, 64, 16, 80};
-	rcLeft[4] = {48, 64, 64, 80};
-	rcLeft[5] = {0, 64, 16, 80};
-
-	rcRight[0] = {0, 80, 16, 96};
-	rcRight[1] = {16, 80, 32, 96};
-	rcRight[2] = {32, 80, 48, 96};
-	rcRight[3] = {0, 80, 16, 96};
-	rcRight[4] = {48, 80, 64, 96};
-	rcRight[5] = {0, 80, 16, 96};
+	RECT rcRight[6] = {
+		{0, 80, 16, 96},
+		{16, 80, 32, 96},
+		{32, 80, 48, 96},
+		{0, 80, 16, 96},
+		{48, 80, 64, 96},
+		{0, 80, 16, 96},
+	};
 
 	switch (npc->act_no)
 	{
@@ -178,16 +180,17 @@ void ActNpc222(NPCHAR *npc)
 //Momorin
 void ActNpc223(NPCHAR *npc)
 {
-	RECT rcLeft[3];
-	RECT rcRight[3];
+	RECT rcLeft[3] = {
+		{80, 192, 96, 216},
+		{96, 192, 112, 216},
+		{112, 192, 128, 216},
+	};
 
-	rcLeft[0] = {80, 192, 96, 216};
-	rcLeft[1] = {96, 192, 112, 216};
-	rcLeft[2] = {112, 192, 128, 216};
-
-	rcRight[0] = {80, 216, 96, 240};
-	rcRight[1] = {96, 216, 112, 240};
-	rcRight[2] = {112, 216, 128, 240};
+	RECT rcRight[3] = {
+		{80, 216, 96, 240},
+		{96, 216, 112, 240},
+		{112, 216, 128, 240},
+	};
 
 	switch (npc->act_no)
 	{
@@ -237,14 +240,15 @@ void ActNpc223(NPCHAR *npc)
 //Chie
 void ActNpc224(NPCHAR *npc)
 {
-	RECT rcLeft[2];
-	RECT rcRight[2];
+	RECT rcLeft[2] = {
+		{112, 32, 128, 48},
+		{128, 32, 144, 48},
+	};
 
-	rcLeft[0] = {112, 32, 128, 48};
-	rcLeft[1] = {128, 32, 144, 48};
-
-	rcRight[0] = {112, 48, 128, 64};
-	rcRight[1] = {128, 48, 144, 64};
+	RECT rcRight[2] = {
+		{112, 48, 128, 64},
+		{128, 48, 144, 64},
+	};
 
 	switch (npc->act_no)
 	{
@@ -290,14 +294,15 @@ void ActNpc224(NPCHAR *npc)
 //Megane
 void ActNpc225(NPCHAR *npc)
 {
-	RECT rcLeft[2];
-	RECT rcRight[2];
+	RECT rcLeft[2] = {
+		{64, 64, 80, 80},
+		{80, 64, 96, 80},
+	};
 
-	rcLeft[0] = {64, 64, 80, 80};
-	rcLeft[1] = {80, 64, 96, 80};
-
-	rcRight[0] = {64, 80, 80, 96};
-	rcRight[1] = {80, 80, 96, 96};
+	RECT rcRight[2] = {
+		{64, 80, 80, 96},
+		{80, 80, 96, 96},
+	};
 
 	switch (npc->act_no)
 	{
@@ -335,15 +340,15 @@ void ActNpc225(NPCHAR *npc)
 //Kanpachi
 void ActNpc226(NPCHAR *npc)
 {
-	RECT rcRight[7];
-
-	rcRight[0] = {256, 56, 272, 80};
-	rcRight[1] = {272, 56, 288, 80};
-	rcRight[2] = {288, 56, 304, 80};
-	rcRight[3] = {256, 56, 272, 80};
-	rcRight[4] = {304, 56, 320, 80};
-	rcRight[5] = {256, 56, 272, 80};
-	rcRight[6] = {240, 56, 256, 80};
+	RECT rcRight[7] = {
+		{256, 56, 272, 80},
+		{272, 56, 288, 80},
+		{288, 56, 304, 80},
+		{256, 56, 272, 80},
+		{304, 56, 320, 80},
+		{256, 56, 272, 80},
+		{240, 56, 256, 80},
+	};
 
 	switch (npc->act_no)
 	{
@@ -418,18 +423,19 @@ void ActNpc227(NPCHAR *npc)
 //Droll (guard)
 void ActNpc228(NPCHAR *npc)
 {
-	RECT rcLeft[4];
-	RECT rcRight[4];
+	RECT rcLeft[4] = {
+		{0, 0, 32, 40},
+		{32, 0, 64, 40},
+		{64, 0, 96, 40},
+		{96, 0, 128, 40},
+	};
 
-	rcLeft[0] = {0, 0, 32, 40};
-	rcLeft[1] = {32, 0, 64, 40};
-	rcLeft[2] = {64, 0, 96, 40};
-	rcLeft[3] = {96, 0, 128, 40};
-
-	rcRight[0] = {0, 40, 32, 80};
-	rcRight[1] = {32, 40, 64, 80};
-	rcRight[2] = {64, 40, 96, 80};
-	rcRight[3] = {96, 40, 128, 80};
+	RECT rcRight[4] = {
+		{0, 40, 32, 80},
+		{32, 40, 64, 80},
+		{64, 40, 96, 80},
+		{96, 40, 128, 80},
+	};
 
 	switch (npc->act_no)
 	{
@@ -443,7 +449,7 @@ void ActNpc228(NPCHAR *npc)
 			npc->ani_no = 0;
 			// Fallthrough
 		case 2:
-			if (gMC.x < npc->x)
+			if (npc->x > gMC.x)
 				npc->direct = 0;
 			else
 				npc->direct = 2;
@@ -514,15 +520,17 @@ void ActNpc228(NPCHAR *npc)
 //Red Flowers (sprouts)
 void ActNpc229(NPCHAR *npc)
 {
-	RECT rc[2];
+	RECT rc[2] = {
+		{0, 96, 48, 112},
+		{0, 112, 48, 128},
+	};
 
-	rc[0] = {0, 96, 48, 112};
-	rc[1] = {0, 112, 48, 128};
-
-	if (npc->act_no == 0)
+	switch (npc->act_no)
 	{
-		npc->act_no = 1;
-		npc->y -= 0x2000;
+		case 0:
+			npc->act_no = 1;
+			npc->y -= 0x2000;
+			break;
 	}
 
 	if (npc->direct == 0)
@@ -534,16 +542,18 @@ void ActNpc229(NPCHAR *npc)
 //Red Flowers (blooming)
 void ActNpc230(NPCHAR *npc)
 {
-	RECT rc[2];
+	RECT rc[2] = {
+		{48, 96, 96, 128},
+		{96, 96, 144, 128},
+	};
 
-	rc[0] = {48, 96, 96, 128};
-	rc[1] = {96, 96, 144, 128};
-
-	if (npc->act_no == 0)
+	switch (npc->act_no)
 	{
-		npc->act_no = 1;
-		npc->x -= 0x2000;
-		npc->y -= 0x2000;
+		case 0:
+			npc->act_no = 1;
+			npc->x -= 0x2000;
+			npc->y -= 0x2000;
+			break;
 	}
 
 	if (npc->direct == 0)
@@ -555,10 +565,12 @@ void ActNpc230(NPCHAR *npc)
 //Rocket
 void ActNpc231(NPCHAR *npc)
 {
-	RECT rc[2];
+	int i;
 
-	rc[0] = {176, 32, 208, 48};
-	rc[1] = {176, 48, 208, 64};
+	RECT rc[2] = {
+		{176, 32, 208, 48},
+		{176, 48, 208, 64},
+	};
 
 	switch (npc->act_no)
 	{
@@ -593,7 +605,7 @@ void ActNpc231(NPCHAR *npc)
 			npc->act_wait = 0;
 			npc->ani_no = 1;
 
-			for (int i = 0; i < 10; ++i)
+			for (i = 0; i < 10; ++i)
 			{
 				SetNpChar(4, npc->x + (Random(-16, 16) * 0x200), npc->y + (Random(-8, 8) * 0x200), 0, 0, 0, 0, 0x100);
 				PlaySoundObject(12, 1);	// Wait, it does this in a loop?
@@ -619,7 +631,7 @@ void ActNpc231(NPCHAR *npc)
 
 				npc->act_no = 15;
 
-				for (int i = 0; i < 6; ++i)
+				for (i = 0; i < 6; ++i)
 				{
 					SetNpChar(4, npc->x + (Random(-16, 16) * 0x200), npc->y + (Random(-8, 8) * 0x200), 0, 0, 0, 0, 0x100);
 					PlaySoundObject(12, 1);
@@ -635,9 +647,9 @@ void ActNpc231(NPCHAR *npc)
 			if (npc->ym < 0)
 			{
 				if (npc->act_wait % 8 == 0)
-					SetCaret(npc->x - 5120, npc->y + 0x1000, 7, 3);
+					SetCaret(npc->x - 0x1400, npc->y + 0x1000, 7, 3);
 				if (npc->act_wait % 8 == 4)
-					SetCaret(npc->x + 5120, npc->y + 0x1000, 7, 3);
+					SetCaret(npc->x + 0x1400, npc->y + 0x1000, 7, 3);
 				if (npc->act_wait % 16 == 1)
 					PlaySoundObject(34, 1);
 			}
@@ -665,6 +677,8 @@ void ActNpc231(NPCHAR *npc)
 //Orangebell
 void ActNpc232(NPCHAR *npc)
 {
+	int i;
+
 	switch (npc->act_no)
 	{
 		case 0:
@@ -673,7 +687,7 @@ void ActNpc232(NPCHAR *npc)
 			npc->tgt_y = npc->y;
 			npc->ym = 0x200;
 
-			for (int i = 0; i < 8; ++i)
+			for (i = 0; i < 8; ++i)
 				SetNpChar(233, npc->x, npc->y, 0, 0, npc->direct, npc, 0x100);
 			// Fallthrough
 		case 1:
@@ -687,7 +701,7 @@ void ActNpc232(NPCHAR *npc)
 			else
 				npc->xm = 0x100;
 
-			if (npc->tgt_y > npc->y)
+			if (npc->y < npc->tgt_y)
 				npc->ym += 8;
 			else
 				npc->ym -= 8;
@@ -712,16 +726,17 @@ void ActNpc232(NPCHAR *npc)
 	npc->y += npc->ym;
 	npc->x += npc->xm;
 
-	RECT rcLeft[3];
-	RECT rcRight[3];
+	RECT rcLeft[3] = {
+		{128, 0, 160, 32},
+		{160, 0, 192, 32},
+		{192, 0, 224, 32},
+	};
 
-	rcLeft[0] = {128, 0, 160, 32};
-	rcLeft[1] = {160, 0, 192, 32};
-	rcLeft[2] = {192, 0, 224, 32};
-
-	rcRight[0] = {128, 32, 160, 64};
-	rcRight[1] = {160, 32, 192, 64};
-	rcRight[2] = {192, 32, 224, 64};
+	RECT rcRight[3] = {
+		{128, 32, 160, 64},
+		{160, 32, 192, 64},
+		{192, 32, 224, 64},
+	};
 
 	if (npc->direct == 0)
 		npc->rect = rcLeft[npc->ani_no];
@@ -758,9 +773,9 @@ void ActNpc233(NPCHAR *npc)
 			if (npc->tgt_x > npc->x)
 				npc->xm += 8;
 
-			if (npc->count2 + npc->tgt_y < npc->y)
+			if (npc->tgt_y + npc->count2 < npc->y)
 				npc->ym -= 0x20;
-			if (npc->count2 + npc->tgt_y > npc->y)
+			if (npc->tgt_y + npc->count2 > npc->y)
 				npc->ym += 0x20;
 
 			if (npc->xm > 0x400)
@@ -779,7 +794,7 @@ void ActNpc233(NPCHAR *npc)
 			}
 			else
 			{
-				if (gMC.x > npc->x - 0x1000 && gMC.x < npc->x + 0x1000 && gMC.y > npc->y && gMC.y < npc->y + 0x16000)
+				if (npc->x - 0x1000 < gMC.x && npc->x + 0x1000 > gMC.x && npc->y < gMC.y && npc->y + 0x16000 > gMC.y)
 				{
 					npc->xm /= 4;
 					npc->ym = 0;
@@ -810,18 +825,19 @@ void ActNpc233(NPCHAR *npc)
 	npc->x += npc->xm;
 	npc->y += npc->ym;
 
-	RECT rcLeft[4];
-	RECT rcRight[4];
+	RECT rcLeft[4] = {
+		{256, 0, 272, 16},
+		{272, 0, 288, 16},
+		{288, 0, 304, 16},
+		{304, 0, 320, 16},
+	};
 
-	rcLeft[0] = {256, 0, 272, 16};
-	rcLeft[1] = {272, 0, 288, 16};
-	rcLeft[2] = {288, 0, 304, 16};
-	rcLeft[3] = {304, 0, 320, 16};
-
-	rcRight[0] = {256, 16, 272, 32};
-	rcRight[1] = {272, 16, 288, 32};
-	rcRight[2] = {288, 16, 304, 32};
-	rcRight[3] = {304, 16, 320, 32};
+	RECT rcRight[4] = {
+		{256, 16, 272, 32},
+		{272, 16, 288, 32},
+		{288, 16, 304, 32},
+		{304, 16, 320, 32},
+	};
 
 	if (npc->act_no == 3)
 	{
@@ -848,15 +864,17 @@ void ActNpc233(NPCHAR *npc)
 //Red Flowers (picked)
 void ActNpc234(NPCHAR *npc)
 {
-	RECT rc[2];
+	RECT rc[2] = {
+		{144, 96, 192, 112},
+		{144, 112, 192, 128},
+	};
 
-	rc[0] = {144, 96, 192, 112};
-	rc[1] = {144, 112, 192, 128};
-
-	if (npc->act_no == 0)
+	switch (npc->act_no)
 	{
-		npc->act_no = 1;
-		npc->y += 0x2000;
+		case 0:
+			npc->act_no = 1;
+			npc->y += 0x2000;
+			break;
 	}
 
 	if (npc->direct == 0)
@@ -868,18 +886,19 @@ void ActNpc234(NPCHAR *npc)
 //Midorin
 void ActNpc235(NPCHAR *npc)
 {
-	RECT rcLeft[4];
-	RECT rcRight[4];
+	RECT rcLeft[4] = {
+		{192, 96, 208, 112},
+		{208, 96, 224, 112},
+		{224, 96, 240, 112},
+		{192, 96, 208, 112},
+	};
 
-	rcLeft[0] = {192, 96, 208, 112};
-	rcLeft[1] = {208, 96, 224, 112};
-	rcLeft[2] = {224, 96, 240, 112};
-	rcLeft[3] = {192, 96, 208, 112};
-
-	rcRight[0] = {192, 112, 208, 128};
-	rcRight[1] = {208, 112, 224, 128};
-	rcRight[2] = {224, 112, 240, 128};
-	rcRight[3] = {192, 112, 208, 128};
+	RECT rcRight[4] = {
+		{192, 112, 208, 128},
+		{208, 112, 224, 128},
+		{224, 112, 240, 128},
+		{192, 112, 208, 128},
+	};
 
 	switch (npc->act_no)
 	{
@@ -933,7 +952,7 @@ void ActNpc235(NPCHAR *npc)
 				npc->direct = 0;
 
 			if (npc->direct == 0)
-				npc->xm = -0x400u;
+				npc->xm = -0x400;
 			else
 				npc->xm = 0x400;
 
@@ -973,22 +992,23 @@ void ActNpc235(NPCHAR *npc)
 //Gunfish
 void ActNpc236(NPCHAR *npc)
 {
-	RECT rcLeft[6];
-	RECT rcRight[6];
+	RECT rcLeft[6] = {
+		{128, 64, 152, 88},
+		{152, 64, 176, 88},
+		{176, 64, 200, 88},
+		{200, 64, 224, 88},
+		{224, 64, 248, 88},
+		{248, 64, 272, 88},
+	};
 
-	rcLeft[0] = {128, 64, 152, 88};
-	rcLeft[1] = {152, 64, 176, 88};
-	rcLeft[2] = {176, 64, 200, 88};
-	rcLeft[3] = {200, 64, 224, 88};
-	rcLeft[4] = {224, 64, 248, 88};
-	rcLeft[5] = {248, 64, 272, 88};
-
-	rcRight[0] = {128, 88, 152, 112};
-	rcRight[1] = {152, 88, 176, 112};
-	rcRight[2] = {176, 88, 200, 112};
-	rcRight[3] = {200, 88, 224, 112};
-	rcRight[4] = {224, 88, 248, 112};
-	rcRight[5] = {248, 88, 272, 112};
+	RECT rcRight[6] = {
+		{128, 88, 152, 112},
+		{152, 88, 176, 112},
+		{176, 88, 200, 112},
+		{200, 88, 224, 112},
+		{224, 88, 248, 112},
+		{248, 88, 272, 112},
+	};
 
 	switch (npc->act_no)
 	{
@@ -1013,7 +1033,7 @@ void ActNpc236(NPCHAR *npc)
 			break;
 
 		case 2:
-			if (gMC.x > npc->x)
+			if (npc->x < gMC.x)
 				npc->direct = 2;
 			else
 				npc->direct = 0;
@@ -1085,7 +1105,7 @@ void ActNpc236(NPCHAR *npc)
 			break;
 	}
 
-	if (npc->tgt_y > npc->y)
+	if (npc->y < npc->tgt_y)
 		npc->ym += 0x10;
 	else
 		npc->ym -= 0x10;
@@ -1106,6 +1126,8 @@ void ActNpc236(NPCHAR *npc)
 //Gunfish projectile
 void ActNpc237(NPCHAR *npc)
 {
+	int i;
+
 	RECT rc = {312, 32, 320, 40};
 
 	switch (npc->act_no)
@@ -1114,21 +1136,22 @@ void ActNpc237(NPCHAR *npc)
 			npc->act_no = 1;
 			// Fallthrough
 		case 1:
-			bool bHit = false;
+			BOOL bHit = FALSE;
 			++npc->act_wait;
 
 			if (npc->flag & 0xFF)
-				bHit = true;
+				bHit = TRUE;
 			if (npc->act_wait > 10 && npc->flag & 0x100)
-				bHit = true;
+				bHit = TRUE;
 
 			if (bHit)
 			{
-				for (int i = 0; i < 5; ++i)
+				for (i = 0; i < 5; ++i)
 					SetCaret(npc->x, npc->y, 1, 0);
 
 				PlaySoundObject(21, 1);
 				npc->cond = 0;
+				return;
 			}
 
 			break;
@@ -1147,11 +1170,11 @@ void ActNpc237(NPCHAR *npc)
 // Press (sideways)
 void ActNpc238(NPCHAR *npc)
 {
-	RECT rc[3];
-
-	rc[0] = {184, 200, 208, 216};
-	rc[1] = {208, 200, 232, 216};
-	rc[2] = {232, 200, 256, 216};
+	RECT rc[3] = {
+		{184, 200, 208, 216},
+		{208, 200, 232, 216},
+		{232, 200, 256, 216},
+	};
 
 	switch (npc->act_no)
 	{
@@ -1247,22 +1270,25 @@ void ActNpc239(NPCHAR *npc)
 	RECT rcLeft = {192, 48, 256, 80};
 	RECT rcRight = {96, 112, 144, 144};
 
-	if (npc->act_no == 0)
+	switch (npc->act_no)
 	{
-		npc->act_no = 1;
+		case 0:
+			npc->act_no = 1;
 
-		if (npc->direct == 0)
-		{
-			npc->x += 0x1000;
-			npc->y += 0x2000;
-		}
-		else
-		{
-			npc->view.front = 0x3000;
-			npc->view.back = 0x3000;
-			npc->view.top = 0x1000;
-			npc->view.back = 0x3000;
-		}
+			if (npc->direct == 0)
+			{
+				npc->x += 0x1000;
+				npc->y += 0x2000;
+			}
+			else
+			{
+				npc->view.front = 0x3000;
+				npc->view.back = 0x3000;
+				npc->view.top = 0x1000;
+				npc->view.back = 0x3000;
+			}
+
+			break;
 	}
 
 	if (npc->direct == 0)

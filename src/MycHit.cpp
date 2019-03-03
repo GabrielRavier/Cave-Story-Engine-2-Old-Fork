@@ -1,18 +1,20 @@
+#include "MycHit.h"
+
 #include <stdint.h>
 
 #include "WindowsWrapper.h"
 
-#include "MyChar.h"
-#include "NpChar.h"
-#include "Map.h"
-#include "Sound.h"
-#include "Caret.h"
-#include "Boss.h"
 #include "Back.h"
+#include "Boss.h"
+#include "Caret.h"
 #include "Game.h"
-#include "TextScr.h"
-#include "MycParam.h"
 #include "KeyControl.h"
+#include "Map.h"
+#include "MyChar.h"
+#include "MycParam.h"
+#include "NpChar.h"
+#include "Sound.h"
+#include "TextScr.h"
 
 void ResetMyCharFlag()
 {
@@ -664,21 +666,21 @@ int JudgeHitMyCharNPC4(NPCHAR *npc)
 	else
 		v1 = (long double)(npc->x - gMC.x);
 	
-	float fx1 = v1;
+	float fx1 = (float)v1;
 	
 	if (npc->y <= gMC.y)
 		v2 = (long double)(gMC.y - npc->y);
 	else
 		v2 = (long double)(npc->y - gMC.y);
 	
-	float fx2 = (long double)npc->hit.back;
+	float fx2 = (float)npc->hit.back;
 	if (0.0 == fx1)
 		fx1 = 1.0;
 	if (0.0 == fx2)
 		fx2 = 1.0;
 	
-	float fy1 = v2;
-	float fy2 = (long double)npc->hit.top;
+	float fy1 = (float)v2;
+	float fy2 = (float)npc->hit.top;
 	
 	if (fy1 / fx1 <= fy2 / fx2)
 	{

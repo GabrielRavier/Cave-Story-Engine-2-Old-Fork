@@ -1,20 +1,23 @@
+#include "Ending.h"
+
 #include <stdint.h>
-#include <string>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "WindowsWrapper.h"
 
-#include "Tags.h"
-#include "Generic.h"
-#include "Ending.h"
-#include "Flags.h"
-#include "KeyControl.h"
-#include "Escape.h"
-#include "Organya.h"
-#include "MycParam.h"
-#include "Main.h"
-#include "Stage.h"
 #include "Draw.h"
+#include "Escape.h"
+#include "Flags.h"
+#include "Generic.h"
+#include "KeyControl.h"
+#include "Main.h"
+#include "MycParam.h"
+#include "Organya.h"
+#include "Stage.h"
 #include "TextScr.h"
+#include "Tags.h"
 
 CREDIT Credit;
 STRIP Strip[MAX_STRIP];
@@ -72,7 +75,7 @@ void SetStripper(int x, int y, char *text, int cast)
 			//Draw text
 			RECT rc = {0, 16 * s, 320, 16 * s + 16};
 			CortBox2(&rc, 0, SURFACE_ID_CREDIT_CAST);
-			PutText2(0, 16 * s, text, 0xFFFFFE, SURFACE_ID_CREDIT_CAST);
+			PutText2(0, 16 * s, text, RGB(0xFF, 0xFF, 0xFE), SURFACE_ID_CREDIT_CAST);
 			break;
 		}
 	}
@@ -87,7 +90,7 @@ void RestoreStripper()
 		{
 			RECT rc = {0, 16 * s, 320, 16 * s + 16};
 			CortBox2(&rc, 0, SURFACE_ID_CREDIT_CAST);
-			PutText2(0, rc.top, Strip[s].str, 0xFFFFFE, SURFACE_ID_CREDIT_CAST);
+			PutText2(0, rc.top, Strip[s].str, RGB(0xFF, 0xFF, 0xFE), SURFACE_ID_CREDIT_CAST);
 		}
 	}
 }
@@ -128,7 +131,7 @@ void ReloadIllust(int a)
 {
 	char name[16];
 	sprintf(name, "CREDIT%02d", a);
-	MakeSurface_Resource(name, SURFACE_ID_CREDITS_IMAGE);
+	ReloadBitmap_File(name, SURFACE_ID_CREDITS_IMAGE);
 }
 
 //Initialize and release credits
@@ -455,9 +458,9 @@ int Scene_DownIsland(int mode)
 		
 		//Draw scene
 		CortBox(&grcFull, 0);
-		PutBitmap3(&rc_frame, 80 + (WINDOW_WIDTH - 320) / 2, 80 + (WINDOW_HEIGHT - 240) / 2, &rc_sky, 21);
-		PutBitmap3(&rc_frame, sprite.x / 0x200 - 20 + (WINDOW_WIDTH - 320) / 2, sprite.y / 512 - 12 + (WINDOW_HEIGHT - 240) / 2, &rc_sprite, 21);
-		PutBitmap3(&rc_frame, 80 + (WINDOW_WIDTH - 320) / 2, 128 + (WINDOW_HEIGHT - 240) / 2, &rc_ground, 21);
+		PutBitmap3(&rc_frame, 80 + (WINDOW_WIDTH - 320) / 2, 80 + (WINDOW_HEIGHT - 240) / 2, &rc_sky, SURFACE_ID_LEVEL_SPRITESET_1);
+		PutBitmap3(&rc_frame, sprite.x / 0x200 - 20 + (WINDOW_WIDTH - 320) / 2, sprite.y / 512 - 12 + (WINDOW_HEIGHT - 240) / 2, &rc_sprite, SURFACE_ID_LEVEL_SPRITESET_1);
+		PutBitmap3(&rc_frame, 80 + (WINDOW_WIDTH - 320) / 2, 128 + (WINDOW_HEIGHT - 240) / 2, &rc_ground, SURFACE_ID_LEVEL_SPRITESET_1);
 		PutTimeCounter(16, 8);
 		
 		//Draw window
