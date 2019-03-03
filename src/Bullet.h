@@ -1,5 +1,7 @@
 #pragma once
+
 #include <stdint.h>
+
 #include "WindowsWrapper.h"
 
 struct BULLET
@@ -56,4 +58,4 @@ void ClearBullet();
 void PutBullet(int fx, int fy);
 void SetBullet(int no, int x, int y, int dir);
 void ActBullet();
-bool IsActiveSomeBullet(void);
+BOOL IsActiveSomeBullet(void);

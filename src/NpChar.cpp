@@ -1,22 +1,24 @@
+#include "NpChar.h"
+
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "WindowsWrapper.h"
 
-#include "CommonDefines.h"
-#include "Tags.h"
-#include "NpChar.h"
-#include "Caret.h"
-#include "MyChar.h"
-#include "Game.h"
 #include "ArmsItem.h"
-#include "Flags.h"
-#include "Sound.h"
-#include "ValueView.h"
-#include "NpcTbl.h"
+#include "CommonDefines.h"
+#include "Caret.h"
 #include "Draw.h"
 #include "File.h"
+#include "Flags.h"
+#include "Game.h"
+#include "MyChar.h"
+#include "NpcTbl.h"
+#include "Sound.h"
+#include "Tags.h"
+#include "ValueView.h"
 
 NPCHAR gNPC[NPC_MAX];
 int gCurlyShoot_wait;
@@ -35,7 +37,7 @@ void InitNpChar()
 void SetUniqueParameter(NPCHAR *npc)
 {
 	int code = npc->code_char;
-	npc->surf = gNpcTable[code].surf;
+	npc->surf = (Surface_Ids)gNpcTable[code].surf;
 	npc->hit_voice = gNpcTable[code].hit_voice;
 	npc->destroy_voice = gNpcTable[code].destroy_voice;
 	npc->damage = gNpcTable[code].damage;
@@ -237,9 +239,10 @@ bool SetBulletObject(int x, int y, int val)
 {
 	int tamakazu_ari[10];
 
+	int n;
 	int t = 0;
 	memset(tamakazu_ari, 0, sizeof(tamakazu_ari));
-	for (int n = 0; n < 8; n++)
+	for (n = 0; n < 8; n++)
 	{
 		int code = gArmsData[n].code;
 		if (code == 5)
@@ -253,7 +256,7 @@ bool SetBulletObject(int x, int y, int val)
 	if (!t)
 		return false;
 
-	int n = Random(1, 10 * t);
+	n = Random(1, 10 * t);
 	int bullet_no = tamakazu_ari[n % t];
 	for (n = 0x100; n < NPC_MAX; n++)
 	{
@@ -347,7 +350,7 @@ void PutNpChar(int fx, int fy)
 				(gNPC[n].x - side) / 0x200 - fx / 0x200 + a,
 				(gNPC[n].y - gNPC[n].view.top) / 0x200 - fy / 0x200,
 				&gNPC[n].rect,
-				gNPC[n].surf);
+				(Surface_Ids)gNPC[n].surf);
 		}
 	}
 }
@@ -358,8 +361,8 @@ void ActNpChar()
 	{
 		if (gNPC[i].cond & 0x80)
 		{
-			if (gpNpcFuncTbl[gNPC[i].code_char] != nullptr)
-				gpNpcFuncTbl[gNPC[i].code_char](&gNPC[i]);
+			gpNpcFuncTbl[gNPC[i].code_char](&gNPC[i]);
+
 			if (gNPC[i].shock)
 				--gNPC[i].shock;
 		}
@@ -402,8 +405,7 @@ void ChangeNpCharByEvent(int code_event, int code_char, int dir)
 				}
 			}
 			
-			if (gpNpcFuncTbl[code_char] != nullptr)
-				gpNpcFuncTbl[code_char](&gNPC[n]);
+			gpNpcFuncTbl[code_char](&gNPC[n]);
 		}
 	}
 }
@@ -445,8 +447,7 @@ void ChangeCheckableNpCharByEvent(int code_event, int code_char, int dir)
 				}
 			}
 			
-			if (gpNpcFuncTbl[code_char] != nullptr)
-				gpNpcFuncTbl[code_char](&gNPC[n]);
+			gpNpcFuncTbl[code_char](&gNPC[n]);
 		}
 	}
 }
@@ -593,26 +594,26 @@ void GetNpCharPosition(int *x, int *y, int i)
   *y = gNPC[i].y;
 }
 
-bool IsNpCharCode(int code)
+BOOL IsNpCharCode(int code)
 {
 	for (int i = 0; i < NPC_MAX; i++)
 	{
 		if ((gNPC[i].cond & 0x80) && gNPC[i].code_char == code)
-			return true;
+			return TRUE;
 	}
 	
-	return false;
+	return FALSE;
 }
 
-bool GetNpCharAlive(int code_event)
+BOOL GetNpCharAlive(int code_event)
 {
 	for (int i = 0; i < NPC_MAX; i++)
 	{
 		if ((gNPC[i].cond & 0x80) && gNPC[i].code_event == code_event)
-			return true;
+			return TRUE;
 	}
 	
-	return false;
+	return FALSE;
 }
 
 int CountAliveNpChar()

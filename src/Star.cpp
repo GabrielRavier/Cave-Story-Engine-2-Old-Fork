@@ -1,11 +1,13 @@
+#include "Star.h"
+
 #include <string.h>
 
 #include "WindowsWrapper.h"
 
-#include "MyChar.h"
-#include "Draw.h"
 #include "Bullet.h"
+#include "Draw.h"
 #include "Game.h"
+#include "MyChar.h"
 
 static struct
 {
@@ -110,17 +112,18 @@ void ActStar()
 
 void PutStar(int fx, int fy)
 {
-	RECT rc[3];
-	rc[0] = {192, 0, 200, 8};
-	rc[1] = {192, 8, 200, 16};
-	rc[2] = {192, 16, 200, 24};
+	RECT rc[3] = {
+		{192, 0, 200, 8},
+		{192, 8, 200, 16},
+		{192, 16, 200, 24},
+	};
 	
 	if (!(gMC.cond & 2) && (gMC.equip & 0x80))
 	{
 		for (int i = 0; i < 3; i++)
 		{
 			if (gMC.star > i)
-				PutBitmap3(&grcGame, star[i].x / 0x200 - fx / 0x200 - 4, star[i].y / 0x200 - fy / 0x200 - 4, &rc[i], 16);
+				PutBitmap3(&grcGame, star[i].x / 0x200 - fx / 0x200 - 4, star[i].y / 0x200 - fy / 0x200 - 4, &rc[i], SURFACE_ID_MY_CHAR);
 		}
 	}
 }

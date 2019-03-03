@@ -1,23 +1,26 @@
-#include "WindowsWrapper.h"
-
 #include "NpcAct.h"
 
+#include "WindowsWrapper.h"
+
+#include "Back.h"
+#include "Caret.h"
 #include "CommonDefines.h"
+#include "Flash.h"
+#include "Flags.h"
+#include "Frame.h"
+#include "Game.h"
+#include "Map.h"
 #include "MyChar.h"
 #include "NpChar.h"
-#include "Game.h"
 #include "Sound.h"
-#include "Back.h"
 #include "Triangle.h"
-#include "Flags.h"
-#include "Map.h"
-#include "Caret.h"
-#include "Frame.h"
-#include "Flash.h"
 
 //Ballos
 void ActNpc340(NPCHAR *npc)
 {
+	int i;
+	int x;
+
 	switch (npc->act_no)
 	{
 		case 0:
@@ -95,10 +98,10 @@ void ActNpc340(NPCHAR *npc)
 			npc->count1 = 0;
 			// Fallthrough
 		case 201:
-			if (npc->xm)
-				npc->act_no = 203;
-			else
+			if (npc->xm == 0)
 				npc->act_no = 202;
+			else
+				npc->act_no = 203;
 
 			npc->act_wait = 0;
 			npc->ani_no = 3;
@@ -153,7 +156,7 @@ void ActNpc340(NPCHAR *npc)
 			else
 				npc->xm = 0x800;
 
-			if (++npc->act_wait / 2 & 1)
+			if (++npc->act_wait / 2 % 2)
 				npc->ani_no = 6;
 			else
 				npc->ani_no = 7;
@@ -209,7 +212,7 @@ void ActNpc340(NPCHAR *npc)
 		case 221:
 			npc->ym = -0x800;
 
-			if (++npc->act_wait / 2 & 1)
+			if (++npc->act_wait / 2 % 2)
 				npc->ani_no = 8;
 			else
 				npc->ani_no = 9;
@@ -222,9 +225,9 @@ void ActNpc340(NPCHAR *npc)
 				npc->act_wait = 0;
 				npc->damage = 3;
 
-				for (int i = 0; i < 8; ++i)
+				for (i = 0; i < 8; ++i)
 				{
-					const int x = npc->x + (Random(-0x10, 0x10) * 0x200);
+					x = npc->x + (Random(-0x10, 0x10) * 0x200);
 					SetNpChar(4, x, npc->y - 0x1400, 0, 0, 0, 0, 0x100);
 				}
 
@@ -267,7 +270,7 @@ void ActNpc340(NPCHAR *npc)
 		case 231:
 			npc->ym = 0x800;
 
-			if (++npc->act_wait / 2 & 1)
+			if (++npc->act_wait / 2 % 2)
 				npc->ani_no = 8;
 			else
 				npc->ani_no = 9;
@@ -283,9 +286,9 @@ void ActNpc340(NPCHAR *npc)
 				else
 					npc->direct = 2;
 
-				for (int i = 0; i < 8; ++i)
+				for (i = 0; i < 8; ++i)
 				{
-					const int x = npc->x + (Random(-0x10u, 0x10) * 0x200);
+					x = npc->x + (Random(-0x10, 0x10) * 0x200);
 					SetNpChar(4, x, npc->y + 0x1400, 0, 0, 0, 0, 0x100);
 				}
 
@@ -324,7 +327,7 @@ void ActNpc340(NPCHAR *npc)
 			if (npc->ym > 0x5FF)
 				npc->ym = 0x5FF;
 
-			if (++npc->ani_wait / 2 & 1)
+			if (++npc->ani_wait / 2 % 2)
 				npc->ani_no = 4;
 			else
 				npc->ani_no = 5;
@@ -380,17 +383,17 @@ void ActNpc340(NPCHAR *npc)
 			else
 				npc->direct = 0;
 
-			if (npc->ani_wait / 2 & 1)
+			if (npc->ani_wait / 2 % 2)
 				npc->ani_no = 4;
 			else
 				npc->ani_no = 5;
 
-			if (npc->tgt_x > npc->x)
+			if (npc->x < npc->tgt_x)
 				npc->xm += 0x40;
 			else
 				npc->xm -= 0x40;
 
-			if (npc->tgt_y > npc->y)
+			if (npc->y < npc->tgt_y)
 				npc->ym += 0x40;
 			else
 				npc->ym -= 0x40;
@@ -429,14 +432,14 @@ void ActNpc340(NPCHAR *npc)
 
 			if (npc->act_wait > 50 && npc->act_wait % 10 == 1)
 			{
-				const int x = ((4 * npc->act_wait - 200) / 10 + 2) * 0x2000;
+				x = ((4 * npc->act_wait - 200) / 10 + 2) * 0x200 * 0x10;
 				SetNpChar(333, x, 0x26000, 0, 0, 0, 0, 0x100);
 			}
 
 			if (npc->act_wait > 140)
 				npc->act_no = 240;
 
-			if (++npc->ani_wait / 2 & 1)
+			if (++npc->ani_wait / 2 % 2)
 				npc->ani_no = 4;
 			else
 				npc->ani_no = 5;
@@ -458,7 +461,7 @@ void ActNpc340(NPCHAR *npc)
 			if (npc->ym > 0x5FF)
 				npc->ym = 0x5FF;
 
-			if (++npc->act_wait / 2 & 1)
+			if (++npc->act_wait / 2 % 2)
 				npc->x = npc->tgt_x + 0x200;
 			else
 				npc->x = npc->tgt_x - 0x200;
@@ -479,7 +482,7 @@ void ActNpc340(NPCHAR *npc)
 				npc->ani_no = 3;
 			}
 
-			if (npc->act_wait / 2 & 1)
+			if (npc->act_wait / 2 % 2)
 				npc->x = npc->tgt_x + 0x200;
 			else
 				npc->x = npc->tgt_x - 0x200;
@@ -510,7 +513,7 @@ void ActNpc340(NPCHAR *npc)
 				PlaySoundObject(29, 1);
 			}
 
-			if (++npc->act_wait / 2 & 1)
+			if (++npc->act_wait / 2 % 2)
 				npc->ani_no = 8;
 			else
 				npc->ani_no = 9;
@@ -521,32 +524,33 @@ void ActNpc340(NPCHAR *npc)
 	npc->x += npc->xm;
 	npc->y += npc->ym;
 
-	RECT rcLeft[11];
-	RECT rcRight[11];
+	RECT rcLeft[11] = {
+		{0, 0, 48, 40},
+		{48, 0, 96, 40},
+		{96, 0, 144, 40},
+		{144, 0, 192, 40},
+		{192, 0, 240, 40},
+		{240, 0, 288, 40},
+		{0, 80, 48, 120},
+		{48, 80, 96, 120},
+		{96, 80, 144, 120},
+		{144, 80, 192, 120},
+		{192, 80, 240, 120},
+	};
 
-	rcLeft[0] = {0, 0, 48, 40};
-	rcLeft[1] = {48, 0, 96, 40};
-	rcLeft[2] = {96, 0, 144, 40};
-	rcLeft[3] = {144, 0, 192, 40};
-	rcLeft[4] = {192, 0, 240, 40};
-	rcLeft[5] = {240, 0, 288, 40};
-	rcLeft[6] = {0, 80, 48, 120};
-	rcLeft[7] = {48, 80, 96, 120};
-	rcLeft[8] = {96, 80, 144, 120};
-	rcLeft[9] = {144, 80, 192, 120};
-	rcLeft[10] = {192, 80, 240, 120};
-
-	rcRight[0] = {0, 40, 48, 80};
-	rcRight[1] = {48, 40, 96, 80};
-	rcRight[2] = {96, 40, 144, 80};
-	rcRight[3] = {144, 40, 192, 80};
-	rcRight[4] = {192, 40, 240, 80};
-	rcRight[5] = {240, 40, 288, 80};
-	rcRight[6] = {0, 120, 48, 160};
-	rcRight[7] = {48, 120, 96, 160};
-	rcRight[8] = {96, 120, 144, 160};
-	rcRight[9] = {144, 120, 192, 160};
-	rcRight[10] = {192, 120, 240, 160};
+	RECT rcRight[11] = {
+		{0, 40, 48, 80},
+		{48, 40, 96, 80},
+		{96, 40, 144, 80},
+		{144, 40, 192, 80},
+		{192, 40, 240, 80},
+		{240, 40, 288, 80},
+		{0, 120, 48, 160},
+		{48, 120, 96, 160},
+		{96, 120, 144, 160},
+		{144, 120, 192, 160},
+		{192, 120, 240, 160},
+	};
 
 	if (npc->direct == 0)
 		npc->rect = rcLeft[npc->ani_no];
@@ -557,11 +561,11 @@ void ActNpc340(NPCHAR *npc)
 //Ballos 1 head
 void ActNpc341(NPCHAR *npc)
 {
-	RECT rc[3];
-
-	rc[0] = {288, 32, 320, 48};
-	rc[1] = {288, 48, 320, 64};
-	rc[2] = {288, 64, 320, 80};
+	RECT rc[3] = {
+		{288, 32, 320, 48},
+		{288, 48, 320, 64},
+		{288, 64, 320, 80},
+	};
 
 	if (npc->pNpc->act_no == 11 && npc->pNpc->act_wait > 50)
 		++npc->ani_wait;
@@ -584,12 +588,13 @@ void ActNpc341(NPCHAR *npc)
 void ActNpc342(NPCHAR *npc)
 {
 	static int flash;
+	unsigned char deg;
 
-	RECT rc[3];
-
-	rc[0] = {240, 48, 280, 88};
-	rc[1] = {240, 88, 280, 128};
-	rc[2] = {280, 48, 320, 88};
+	RECT rc[3] = {
+		{240, 48, 280, 88},
+		{240, 88, 280, 128},
+		{280, 48, 320, 88},
+	};
 
 	if (npc->act_no < 1000 && npc->pNpc->act_no >= 1000)
 		npc->act_no = 1000;
@@ -638,7 +643,7 @@ void ActNpc342(NPCHAR *npc)
 
 			if (npc->shock)
 			{
-				if (++flash / 2 & 1)
+				if (++flash / 2 % 2)
 					npc->ani_no = 1;
 				else
 					npc->ani_no = 0;
@@ -693,13 +698,13 @@ void ActNpc342(NPCHAR *npc)
 			npc->damage = 10;
 
 			if (npc->direct == 0)
-				npc->bits |= 0x20u;
+				npc->bits |= 0x20;
 
 			npc->ym = 0;
 			// Fallthrough
 		case 31:
 			++npc->count1;
-			npc->count1 &= 0x1FF;
+			npc->count1 %= 0x200;
 
 			if (npc->count2 > 0x100)
 				--npc->count2;
@@ -708,7 +713,7 @@ void ActNpc342(NPCHAR *npc)
 			{
 				if (npc->shock)
 				{
-					if (++flash / 2 & 1)
+					if (++flash / 2 % 2)
 						npc->ani_no = 1;
 					else
 						npc->ani_no = 0;
@@ -775,18 +780,20 @@ void ActNpc342(NPCHAR *npc)
 			npc->exp = 0;
 			// Fallthrough
 		case 1001:
-			if (npc->count1 <= 0)
+			if (npc->count1 > 0)
+			{
+				if (--npc->count1 / 2 % 2)
+					npc->ani_no = 1;
+				else
+					npc->ani_no = 0;
+			}
+			else
 			{
 				SetDestroyNpChar(npc->x, npc->y, 0x2000, 0x20);
 				PlaySoundObject(71, 1);
 				VanishNpChar(npc);
 				return;
 			}
-
-			if (--npc->count1 / 2 & 1)
-				npc->ani_no = 1;
-			else
-				npc->ani_no = 0;
 
 			break;
 	}
@@ -833,7 +840,7 @@ void ActNpc342(NPCHAR *npc)
 
 	if (npc->act_no < 40)
 	{
-		const unsigned char deg = npc->count1 / 2;
+		deg = npc->count1 / 2;
 
 		npc->tgt_x = npc->pNpc->x + npc->count2 * GetCos(deg) / 4;
 		npc->tgt_y = npc->pNpc->y + npc->count2 * GetSin(deg) / 4;
@@ -865,10 +872,10 @@ void ActNpc343(NPCHAR *npc)
 //Ballos 2 eyes
 void ActNpc344(NPCHAR *npc)
 {
-	RECT rc[2];
-
-	rc[0] = {272, 0, 296, 16};
-	rc[1] = {296, 0, 320, 16};
+	RECT rc[2] = {
+		{272, 0, 296, 16},
+		{296, 0, 320, 16},
+	};
 
 	if (npc->direct == 0)
 	{
@@ -890,18 +897,20 @@ void ActNpc344(NPCHAR *npc)
 //Ballos skull projectile
 void ActNpc345(NPCHAR *npc)
 {
-	RECT rc[4];
+	int i;
 
-	rc[0] = {128, 176, 144, 192};
-	rc[1] = {144, 176, 160, 192};
-	rc[2] = {160, 176, 176, 192};
-	rc[3] = {176, 176, 192, 192};
+	RECT rc[4] = {
+		{128, 176, 144, 192},
+		{144, 176, 160, 192},
+		{160, 176, 176, 192},
+		{176, 176, 192, 192},
+	};
 
 	switch (npc->act_no)
 	{
 		case 0:
 			npc->act_no = 100;
-			npc->ani_no = Random(0, 16) & 3;
+			npc->ani_no = Random(0, 16) % 4;
 			// Fallthrough
 		case 100:
 			npc->ym += 0x40;
@@ -911,18 +920,18 @@ void ActNpc345(NPCHAR *npc)
 			if (npc->y > 0x10000)
 				npc->bits &= ~8;
 
-			if (npc->act_wait++ / 2 & 1)
+			if (npc->act_wait++ / 2 % 2)
 				SetNpChar(4, npc->x, npc->y, 0, 0, 0, 0, 0x100);
 
 			if (npc->flag & 8)
 			{
 				npc->ym = -0x200;
 				npc->act_no = 110;
-				npc->bits |= 8u;
+				npc->bits |= 8;
 				PlaySoundObject(12, 1);
 				SetQuake(10);
 
-				for (int i = 0; i < 4; ++i)
+				for (i = 0; i < 4; ++i)
 					SetNpChar(4, npc->x + (Random(-12, 12) * 0x200), npc->y + 0x2000, Random(-341, 341), Random(-0x600, 0), 0, 0, 0x100);
 			}
 
@@ -931,7 +940,7 @@ void ActNpc345(NPCHAR *npc)
 		case 110:
 			npc->ym += 0x40;
 
-			if (npc->y > (gMap.length + 2) * 0x2000)
+			if (npc->y > (gMap.length * 0x200 * 0x10) + (2 * 0x200 * 0x10))
 			{
 				npc->cond = 0;
 				return;
@@ -957,6 +966,8 @@ void ActNpc345(NPCHAR *npc)
 //Ballos 4 orbiting platform
 void ActNpc346(NPCHAR *npc)
 {
+	unsigned char deg;
+
 	RECT rc = {240, 0, 272, 16};
 
 	if (npc->act_no < 1000 && npc->pNpc->act_no >= 1000)
@@ -997,7 +1008,7 @@ void ActNpc346(NPCHAR *npc)
 
 		case 30:
 			++npc->count1;
-			npc->count1 &= 0x3FF;
+			npc->count1 %= 0x400;
 
 			if (npc->pNpc->act_no == 425)
 				npc->act_no = 50;
@@ -1019,7 +1030,7 @@ void ActNpc346(NPCHAR *npc)
 
 		case 50:
 			npc->count1 += 2;
-			npc->count1 &= 0x3FF;
+			npc->count1 %= 0x400;
 
 			if (npc->pNpc->act_no == 426)
 				npc->act_no = 30;
@@ -1045,7 +1056,7 @@ void ActNpc346(NPCHAR *npc)
 		case 1001:
 			npc->ym += 0x40;
 
-			if (npc->y > gMap.length * 0x2000)
+			if (npc->y > gMap.length * 0x10 * 0x200)
 				npc->cond = 0;
 
 			break;
@@ -1054,26 +1065,29 @@ void ActNpc346(NPCHAR *npc)
 	if (npc->act_no < 1000)
 	{
 		if (gMC.y > npc->y - 0x1000 && gMC.ym < 0)
-			npc->bits &= ~0x40u;
+			npc->bits &= ~0x40;
 		else
-			npc->bits |= 0x40u;
+			npc->bits |= 0x40;
 
-		const unsigned char deg = npc->count1 / 4;
+		deg = npc->count1 / 4;
 		npc->tgt_x = npc->pNpc->x + npc->count2 * GetCos(deg) / 4;
-		npc->tgt_y = npc->pNpc->y + npc->count2 * GetSin(deg) / 4 + 0x2000;
+		npc->tgt_y = npc->pNpc->y + 0x2000 + npc->count2 * GetSin(deg) / 4;
 
 		npc->xm = npc->tgt_x - npc->x;
 
-		if (npc->act_no != 20 && npc->act_no != 30)
+		if (npc->act_no == 20 || npc->act_no == 30)
 		{
-			if (npc->act_no != 40 && npc->act_no != 50)
-				npc->ani_no = npc->tgt_y - npc->y;
-			else if ((npc->count1 / 2 & 1) == 0)
+			if (npc->count1 % 4 == 0)
+				npc->ani_no = (npc->tgt_y - npc->y) / 4;
+		}
+		else if (npc->act_no == 40 || npc->act_no == 50)
+		{
+			 if ((npc->count1 / 2 % 2) == 0)
 				npc->ani_no = (npc->tgt_y - npc->y) / 2;
 		}
-		else if ((npc->count1 & 3) == 0)
+		else
 		{
-			npc->ani_no = (npc->tgt_y - npc->y) / 4;
+			npc->ani_no = npc->tgt_y - npc->y;
 		}
 
 		npc->ym = npc->ani_no;
@@ -1121,7 +1135,7 @@ void ActNpc347(NPCHAR *npc)
 
 		case 12:
 			if (gMC.y < npc->y)
-				npc->ym = -0xAAu;
+				npc->ym = -0xAA;
 			else
 				npc->ym = 0xAA;
 
@@ -1132,6 +1146,7 @@ void ActNpc347(NPCHAR *npc)
 				npc->ani_no = 2;
 				npc->xm = 0;
 				npc->ym = 0;
+				break;
 			}
 			else
 			{
@@ -1149,7 +1164,7 @@ void ActNpc347(NPCHAR *npc)
 		case 13:
 			++npc->act_wait;
 
-			if (++npc->act_wait == 2)
+			if (npc->act_wait == 2)
 				npc->ani_no = 1;
 
 			if (npc->act_wait == 6)
@@ -1161,12 +1176,12 @@ void ActNpc347(NPCHAR *npc)
 			break;
 	}
 
-	RECT rc[4];
-
-	rc[0] = {256, 48, 272, 64};
-	rc[1] = {272, 48, 288, 64};
-	rc[2] = {288, 48, 304, 64};
-	rc[3] = {304, 48, 320, 64};
+	RECT rc[4] = {
+		{256, 48, 272, 64},
+		{272, 48, 288, 64},
+		{288, 48, 304, 64},
+		{304, 48, 320, 64},
+	};
 
 	npc->rect = rc[npc->ani_no];
 }
@@ -1174,10 +1189,10 @@ void ActNpc347(NPCHAR *npc)
 //Ballos 4 spikes
 void ActNpc348(NPCHAR *npc)
 {
-	RECT rc[2];
-
-	rc[0] = {128, 152, 160, 176};
-	rc[1] = {160, 152, 192, 176};
+	RECT rc[2] = {
+		{128, 152, 160, 176},
+		{160, 152, 192, 176},
+	};
 
 	switch (npc->act_no)
 	{
@@ -1189,7 +1204,7 @@ void ActNpc348(NPCHAR *npc)
 			{
 				npc->y -= 0x80;
 
-				if (npc->act_wait / 2 & 1)
+				if (npc->act_wait / 2 % 2)
 					npc->ani_no = 1;
 				else
 					npc->ani_no = 0;
@@ -1228,24 +1243,25 @@ void ActNpc349(NPCHAR *npc)
 //Flying Bute archer
 void ActNpc350(NPCHAR *npc)
 {
-	RECT rcLeft[7];
-	RECT rcRight[7];
+	RECT rcLeft[7] = {
+		{0, 160, 24, 184},
+		{24, 160, 48, 184},
+		{48, 160, 72, 184},
+		{72, 160, 96, 184},
+		{96, 160, 120, 184},
+		{120, 160, 144, 184},
+		{144, 160, 168, 184},
+	};
 
-	rcLeft[0] = {0, 160, 24, 184};
-	rcLeft[1] = {24, 160, 48, 184};
-	rcLeft[2] = {48, 160, 72, 184};
-	rcLeft[3] = {72, 160, 96, 184};
-	rcLeft[4] = {96, 160, 120, 184};
-	rcLeft[5] = {120, 160, 144, 184};
-	rcLeft[6] = {144, 160, 168, 184};
-
-	rcRight[0] = {0, 184, 24, 208};
-	rcRight[1] = {24, 184, 48, 208};
-	rcRight[2] = {48, 184, 72, 208};
-	rcRight[3] = {72, 184, 96, 208};
-	rcRight[4] = {96, 184, 120, 208};
-	rcRight[5] = {120, 184, 144, 208};
-	rcRight[6] = {144, 184, 168, 208};
+	RECT rcRight[7] = {
+		{0, 184, 24, 208},
+		{24, 184, 48, 208},
+		{48, 184, 72, 208},
+		{72, 184, 96, 208},
+		{96, 184, 120, 208},
+		{120, 184, 144, 208},
+		{144, 184, 168, 208},
+	};
 
 	switch (npc->act_no)
 	{
@@ -1312,7 +1328,7 @@ void ActNpc350(NPCHAR *npc)
 			npc->ani_wait = 0;
 			// Fallthrough
 		case 31:
-			if (++npc->ani_wait / 2 & 1)
+			if (++npc->ani_wait / 2 % 2)
 				npc->ani_no = 3;
 			else
 				npc->ani_no = 4;
@@ -1368,8 +1384,11 @@ void ActNpc350(NPCHAR *npc)
 			else
 				npc->xm += 0x20;
 
-			if (npc->x < 0 || npc->x > gMap.width * 0x2000)
+			if (npc->x < 0 || npc->x > gMap.width * 0x200 * 0x10)
+			{
 				VanishNpChar(npc);
+				return;
+			}
 
 			break;
 	}
@@ -1409,17 +1428,17 @@ void ActNpc350(NPCHAR *npc)
 //Statue (shootable)
 void ActNpc351(NPCHAR *npc)
 {
-	RECT rc[9];
-
-	rc[0] = {0, 96, 32, 136};
-	rc[1] = {32, 96, 64, 136};
-	rc[2] = {64, 96, 96, 136};
-	rc[3] = {96, 96, 128, 136};
-	rc[4] = {128, 96, 160, 136};
-	rc[5] = {0, 176, 32, 216};
-	rc[6] = {32, 176, 64, 216};
-	rc[7] = {64, 176, 96, 216};
-	rc[8] = {96, 176, 128, 216};
+	RECT rc[9] = {
+		{0, 96, 32, 136},
+		{32, 96, 64, 136},
+		{64, 96, 96, 136},
+		{96, 96, 128, 136},
+		{128, 96, 160, 136},
+		{0, 176, 32, 216},
+		{32, 176, 64, 216},
+		{64, 176, 96, 216},
+		{96, 176, 128, 216},
+	};
 
 	switch (npc->act_no)
 	{
@@ -1479,7 +1498,7 @@ void ActNpc352(NPCHAR *npc)
 				case 9:
 				case 12:
 				case 13:
-					npc->surf = 21;
+					npc->surf = SURFACE_ID_LEVEL_SPRITESET_1;
 					break;
 				default:
 					break;
@@ -1525,7 +1544,7 @@ void ActNpc352(NPCHAR *npc)
 			break;
 	}
 	
-	static RECT rc[28] = {
+	RECT rc[28] = {
 		{304, 48, 320, 64},
 		{224, 48, 240, 64},
 		{32, 80, 48, 96},
@@ -1562,20 +1581,22 @@ void ActNpc352(NPCHAR *npc)
 //Bute with sword (flying)
 void ActNpc353(NPCHAR *npc)
 {
-	RECT rc[4];
-	RECT rcLeft[2];
-	RECT rcRight[2];
+	RECT rc[4] = {
+		{168, 160, 184, 184},
+		{184, 160, 200, 184},
+		{168, 184, 184, 208},
+		{184, 184, 200, 208},
+	};
 
-	rc[0] = {168, 160, 184, 184};
-	rc[1] = {184, 160, 200, 184};
-	rc[2] = {168, 184, 184, 208};
-	rc[3] = {184, 184, 200, 208};
+	RECT rcLeft[2] = {
+		{200, 160, 216, 176},
+		{216, 160, 232, 176},
+	};
 
-	rcLeft[0] = {200, 160, 216, 176};
-	rcLeft[1] = {216, 160, 232, 176};
-
-	rcRight[0] = {200, 176, 216, 192};
-	rcRight[1] = {216, 176, 232, 192};
+	RECT rcRight[2] = {
+		{200, 176, 216, 192},
+		{216, 176, 232, 192},
+	};
 
 	switch (npc->act_no)
 	{
@@ -1628,74 +1649,80 @@ void ActNpc353(NPCHAR *npc)
 			npc->bits &= ~8;
 			npc->damage = 5;
 			npc->view.top = 0x1000;
+			// Fallthrough
+		case 11:
+			if (npc->x > gMC.x)
+				npc->direct = 0;
+			else
+				npc->direct = 2;
+
+			if (gMC.y - 0x3000 > npc->y)
+			{
+				if (npc->direct == 0)
+					npc->xm2 += 0x10;
+				else
+					npc->xm2 -= 0x10;
+			}
+			else
+			{
+				if (npc->direct == 0)
+					npc->xm2 -= 0x10;
+				else
+					npc->xm2 += 0x10;
+			}
+
+			if (npc->y > gMC.y)
+				npc->ym2 -= 0x10;
+			else
+				npc->ym2 += 0x10;
+
+			if (npc->xm2 < 0 && npc->flag & 1)
+				npc->xm2 *= -1;
+			if (npc->xm2 > 0 && npc->flag & 4)
+				npc->xm2 *= -1;
+
+			if (npc->ym2 < 0 && npc->flag & 2)
+				npc->ym2 *= -1;
+			if (npc->ym2 > 0 && npc->flag & 8)
+				npc->ym2 *= -1;
+
+			if (npc->xm2 < -0x5FF)
+				npc->xm2 = -0x5FF;
+			if (npc->xm2 > 0x5FF)
+				npc->xm2 = 0x5FF;
+
+			if (npc->ym2 < -0x5FF)
+				npc->ym2 = -0x5FF;
+			if (npc->ym2 > 0x5FF)
+				npc->ym2 = 0x5FF;
+
+			npc->x += npc->xm2;
+			npc->y += npc->ym2;
+
+			if (++npc->ani_wait > 1)
+			{
+				npc->ani_wait = 0;
+
+				if (++npc->ani_no > 1)
+					npc->ani_no = 0;
+			}
+
+			if (npc->direct == 0)
+				npc->rect = rcLeft[npc->ani_no];
+			else
+				npc->rect = rcRight[npc->ani_no];
+
 			break;
 	}
-
-	if (gMC.x < npc->x)
-		npc->direct = 0;
-	else
-		npc->direct = 2;
-
-	if (gMC.y - 0x3000 > npc->y)
-	{
-		if (npc->direct == 0)
-			npc->xm2 += 0x10;
-		else
-			npc->xm2 -= 0x10;
-	}
-	else
-	{
-		if (npc->direct == 0)
-			npc->xm2 -= 0x10;
-		else
-			npc->xm2 += 0x10;
-	}
-
-	if (gMC.y < npc->y)
-		npc->ym2 -= 0x10;
-	else
-		npc->ym2 += 0x10;
-
-	if (npc->xm2 < 0 && npc->flag & 1)
-		npc->xm2 = -npc->xm2;
-	if (npc->xm2 > 0 && npc->flag & 4)
-		npc->xm2 = -npc->xm2;
-
-	if (npc->ym2 < 0 && npc->flag & 2)
-		npc->ym2 = -npc->ym2;
-	if (npc->ym2 > 0 && npc->flag & 8)
-		npc->ym2 = -npc->ym2;
-
-	if (npc->xm2 < -0x5FF)
-		npc->xm2 = -0x5FF;
-	if (npc->xm2 > 0x5FF)
-		npc->xm2 = 0x5FF;
-
-	if (npc->ym2 < -0x5FF)
-		npc->ym2 = -0x5FF;
-	if (npc->ym2 > 0x5FF)
-		npc->ym2 = 0x5FF;
-
-	npc->x += npc->xm2;
-	npc->y += npc->ym2;
-
-	if (++npc->ani_wait > 1)
-	{
-		npc->ani_wait = 0;
-
-		if (++npc->ani_no > 1)
-			npc->ani_no = 0;
-	}
-
-	if (npc->direct == 0)
-		npc->rect = rcLeft[npc->ani_no];
-	else
-		npc->rect = rcRight[npc->ani_no];
 }
 
 //Invisible deathtrap wall
 void ActNpc354(NPCHAR *npc)
 {
+	int i;
+	int x;
+	int y;
+
 	switch (npc->act_no)
 	{
 		case 0:
@@ -1724,8 +1751,12 @@ void ActNpc354(NPCHAR *npc)
 				else
 					npc->x += 0x2000;
 
-				for (int i = 0; i < 20; ++i)
-					ChangeMapParts(npc->x / 0x200 / 0x10, i + npc->y / 0x200 / 0x10, 0x6Du);
+				for (i = 0; i < 20; ++i)
+				{
+					x = npc->x / 0x200 / 0x10;
+					y = i + npc->y / 0x200 / 0x10;
+					ChangeMapParts(x, y, 109);
+				}
 			}
 
 			break;
@@ -1735,45 +1766,48 @@ void ActNpc354(NPCHAR *npc)
 //Quote and Curly on Balrog's back
 void ActNpc355(NPCHAR *npc)
 {
-	RECT rc[4];
+	RECT rc[4] = {
+		{80, 16, 96, 32},
+		{80, 96, 96, 112},
+		{128, 16, 144, 32},
+		{208, 96, 224, 112},
+	};
 
-	rc[0] = {80, 16, 96, 32};
-	rc[1] = {80, 96, 96, 112};
-	rc[2] = {128, 16, 144, 32};
-	rc[3] = {208, 96, 224, 112};
-
-	if (npc->act_no == 0)
+	switch (npc->act_no)
 	{
-		switch (npc->direct)
-		{
-			case 0:
-				npc->surf = 16;
-				npc->ani_no = 0;
-				npc->x = npc->pNpc->x - 0x1C00;
-				npc->y = npc->pNpc->y + 0x1400;
-				break;
+		case 0:
+			switch (npc->direct)
+			{
+				case 0:
+					npc->surf = SURFACE_ID_MY_CHAR;
+					npc->ani_no = 0;
+					npc->x = npc->pNpc->x - 0x1C00;
+					npc->y = npc->pNpc->y + 0x1400;
+					break;
 
-			case 1:
-				npc->surf = 23;
-				npc->ani_no = 1;
-				npc->x = npc->pNpc->x + 0x1C00;
-				npc->y = npc->pNpc->y + 0x1400;
-				break;
+				case 1:
+					npc->surf = SURFACE_ID_NPC_REGU;
+					npc->ani_no = 1;
+					npc->x = npc->pNpc->x + 0x1C00;
+					npc->y = npc->pNpc->y + 0x1400;
+					break;
 
-			case 2:
-				npc->surf = 16;
-				npc->ani_no = 2;
-				npc->x = npc->pNpc->x - 0xE00;
-				npc->y = npc->pNpc->y - 0x2600;
-				break;
+				case 2:
+					npc->surf = SURFACE_ID_MY_CHAR;
+					npc->ani_no = 2;
+					npc->x = npc->pNpc->x - 0xE00;
+					npc->y = npc->pNpc->y - 0x2600;
+					break;
 
-			case 3:
-				npc->surf = 23;
-				npc->ani_no = 3;
-				npc->x = npc->pNpc->x + 0x800;
-				npc->y = npc->pNpc->y - 0x2600;
-				break;
-		}
+				case 3:
+					npc->surf = SURFACE_ID_NPC_REGU;
+					npc->ani_no = 3;
+					npc->x = npc->pNpc->x + 0x800;
+					npc->y = npc->pNpc->y - 0x2600;
+					break;
+			}
+
+			break;
 	}
 
 	npc->rect = rc[npc->ani_no];
@@ -1782,10 +1816,10 @@ void ActNpc355(NPCHAR *npc)
 //Balrog rescue
 void ActNpc356(NPCHAR *npc)
 {
-	RECT rcRight[2];
-
-	rcRight[0] = {240, 128, 280, 152};
-	rcRight[1] = {240, 152, 280, 176};
+	RECT rcRight[2] = {
+		{240, 128, 280, 152},
+		{240, 152, 280, 176},
+	};
 
 	switch (npc->act_no)
 	{
@@ -1799,12 +1833,12 @@ void ActNpc356(NPCHAR *npc)
 			SetNpChar(355, 0, 0, 0, 0, 2, npc, 0xAA);
 			// Fallthrough
 		case 11:
-			if (npc->tgt_x > npc->x)
+			if (npc->x < npc->tgt_x)
 				npc->xm += 8;
 			else
 				npc->xm -= 8;
 
-			if (npc->tgt_y > npc->y)
+			if (npc->y < npc->tgt_y)
 				npc->ym += 8;
 			else
 				npc->ym -= 8;
@@ -1870,7 +1904,7 @@ void ActNpc357(NPCHAR *npc)
 			++npc->act_wait;
 			npc->rect = rc;
 
-			if (npc->act_wait / 2 & 1)
+			if (npc->act_wait / 2 % 2)
 				npc->rect.right = npc->rect.left;
 
 			if (npc->act_wait > 50)
@@ -1886,13 +1920,13 @@ void ActNpc357(NPCHAR *npc)
 //Misery (stood in the wind during the credits)
 void ActNpc358(NPCHAR *npc)
 {
-	RECT rc[5];
-
-	rc[0] = {208, 8, 224, 32};
-	rc[1] = {224, 8, 240, 32};
-	rc[2] = {240, 8, 256, 32};
-	rc[3] = {256, 8, 272, 32};
-	rc[4] = {272, 8, 288, 32};
+	RECT rc[5] = {
+		{208, 8, 224, 32},
+		{224, 8, 240, 32},
+		{240, 8, 256, 32},
+		{256, 8, 272, 32},
+		{272, 8, 288, 32},
+	};
 
 	switch (npc->act_no)
 	{
@@ -1927,19 +1961,26 @@ void ActNpc358(NPCHAR *npc)
 //Water droplet generator
 void ActNpc359(NPCHAR *npc)
 {
+	int x;
+
 	if (gMC.x < npc->x + (((WINDOW_WIDTH / 2) + 160) * 0x200) && gMC.x > npc->x - (((WINDOW_WIDTH / 2) + 160) * 0x200) && gMC.y < npc->y + (((WINDOW_HEIGHT / 2) + 200) * 0x200) && gMC.y > npc->y - (((WINDOW_HEIGHT / 2) + 40) * 0x200) && Random(0, 100) == 2)
-		SetNpChar(73, npc->x + (Random(-6, 6) * 0x200), npc->y - 0xE00, 0, 0, 0, 0, 0);
+	{
+		x = npc->x + (Random(-6, 6) * 0x200);
+		SetNpChar(73, x, npc->y - 0xE00, 0, 0, 0, 0, 0);
+	}
 }
 
 //Thank you
 void ActNpc360(NPCHAR *npc)
 {
-	if (!npc->act_no)
+	RECT rc = {0, 176, 48, 184};
+
+	if (npc->act_no == 0)
 	{
 		++npc->act_no;
 		npc->x -= 0x1000;
 		npc->y -= 0x1000;
 	}
 	
-	npc->rect = {0, 176, 48, 184};
+	npc->rect = rc;
 }
