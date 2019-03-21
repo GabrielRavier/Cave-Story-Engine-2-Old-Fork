@@ -309,9 +309,6 @@ int main(int argc, char *argv[])
 				break;
 		}
 		
-		//Create window
-		
-		
 		if (gWindow)
 		{
 			//Check debug things
