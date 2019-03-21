@@ -51,7 +51,7 @@ typedef enum Surface_Ids
 	SURFACE_ID_CREDIT_CAST = 35,
 	SURFACE_ID_CREDITS_IMAGE = 36,
 	SURFACE_ID_CASTS = 37,
-	SURFACE_ID_MAX = 40,
+	SURFACE_ID_MAX = 40
 } Surface_Ids;
 
 struct SURFACE;
@@ -74,6 +74,8 @@ void Surface2Surface(int x, int y, RECT *rect, int to, int from);
 unsigned long GetCortBoxColor(unsigned long col);
 void CortBox(RECT *rect, uint32_t col);
 void CortBox2(RECT *rect, uint32_t col, Surface_Ids surf_no);
+int SubpixelToScreenCoord(int coord);
+int PixelToScreenCoord(int coord);
 void InitTextObject(const char *font_name);
 void PutText(int x, int y, const char *text, uint32_t color);
 void PutText2(int x, int y, const char *text, uint32_t color, Surface_Ids surf_no);
