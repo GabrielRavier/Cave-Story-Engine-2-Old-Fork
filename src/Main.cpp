@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include <SDL.h>
@@ -228,14 +229,14 @@ int main(int argc, char *argv[])
 			if (cursor)
 				SDL_SetCursor(cursor);
 			else
-				printf("Failed to load cursor");
+				printf("Failed to load cursor\n");
 
 			SDL_FreeSurface(cursor_surface);
 			free(bitmap_pixels);
 		}
 		else
 		{
-			printf("Failed to load cursor");
+			printf("Failed to load cursor\n");
 		}
 
 		//Get window dimensions and colour depth
@@ -339,7 +340,7 @@ int main(int argc, char *argv[])
 			}
 			else
 			{
-				printf("Failed to load icon");
+				printf("Failed to load icon\n");
 			}
 #endif
 
@@ -352,7 +353,7 @@ int main(int argc, char *argv[])
 			
 			//Draw loading screen
 			CortBox(&clip_rect, 0x000000);
-			PutBitmap3(&clip_rect, (WINDOW_WIDTH - 64) / 2, (WINDOW_HEIGHT - 8) / 2, &loading_rect, SURFACE_ID_LOADING);
+			PutBitmap3(&clip_rect, PixelToScreenCoord((WINDOW_WIDTH - 64) / 2), PixelToScreenCoord((WINDOW_HEIGHT - 8) / 2), &loading_rect, SURFACE_ID_LOADING);
 			
 			//Draw to screen
 			if (Flip_SystemTask())

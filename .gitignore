@@ -13,37 +13,15 @@ build.zip
 *.stackdump
 
 # Compiled object files
-*.slo
-*.obj
 *.o
 *.lo
 *.ko
 *.elf
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled dynamic libraries
-*.so
-*.dylib
-*.dll
+# Compiled Dynamic libraries
 *.so.*
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled static libraries
-*.lai
-*.la
-*.a
-*.lib
+# Compiled Static libraries
 *.lo
-
 # Executables
-*.out
-*.app
 *.i*86
 *.x86_64
 *.hex

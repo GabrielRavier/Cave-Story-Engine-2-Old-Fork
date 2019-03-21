@@ -101,13 +101,13 @@ BOOL Flip_SystemTask()
 	if ((float)renderer_width / texture_width < (float)renderer_height / texture_height)
 	{
 		dst_rect.w = renderer_width;
-		dst_rect.h = texture_height * (float)renderer_width / texture_width;
+		dst_rect.h = (int)(texture_height * (float)renderer_width / texture_width);
 		dst_rect.x = 0;
 		dst_rect.y = (renderer_height - dst_rect.h) / 2;
 	}
 	else
 	{
-		dst_rect.w = texture_width * (float)renderer_height / texture_height;
+		dst_rect.w = (int)(texture_width * (float)renderer_height / texture_height);
 		dst_rect.h = renderer_height;
 		dst_rect.x = (renderer_width - dst_rect.w) / 2;
 		dst_rect.y = 0;
@@ -135,11 +135,21 @@ BOOL StartDirectDraw(int lMagnification, int lColourDepth)
 	SDL_GetWindowDisplayMode(gWindow, &display_mode);
 	vsync = display_mode.refresh_rate == 60;
 
+#ifdef RASPBERRY_PI
+	//Force OpenGLES2 on Raspberry Pi
+	SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengles2");
+#endif
+
 	//Create renderer
 	gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | (vsync ? SDL_RENDERER_PRESENTVSYNC : 0));
 
 	if (gRenderer != NULL)
 	{
+		//Print the name of the renderer SDL2 is using
+		SDL_RendererInfo info;
+		SDL_GetRendererInfo(gRenderer, &info);
+		printf("Renderer: %s\n", info.name);
+
 		switch (lMagnification)
 		{
 			case 0:
@@ -248,18 +258,7 @@ static void FlushSurface(Surface_Ids surf_no)
 	SDL_LockTexture(surf[surf_no].texture, NULL, (void**)&raw_pixels, &pitch);
 
 	for (int h = 0; h < surf[surf_no].surface->h; ++h)
-	{
-		for (int w = 0; w < surf[surf_no].surface->w; ++w)
-		{
-			unsigned char *src_pixel = (unsigned char*)surf[surf_no].surface->pixels + (h * surf[surf_no].surface->pitch) + (w * 4);
-			unsigned char *dst_pixel = (unsigned char*)raw_pixels + (h * pitch) + (w * 4);
-
-			dst_pixel[0] = src_pixel[0];
-			dst_pixel[1] = src_pixel[1];
-			dst_pixel[2] = src_pixel[2];
-			dst_pixel[3] = src_pixel[3];
-		}
-	}
+		memcpy((unsigned char*)raw_pixels + (h * pitch), (unsigned char*)surf[surf_no].surface->pixels + (h * surf[surf_no].surface->pitch), surf[surf_no].surface->w * 4);
 
 	SDL_UnlockTexture(surf[surf_no].texture);
 }
@@ -280,7 +279,7 @@ static bool LoadBitmap(SDL_RWops *fp, Surface_Ids surf_no, bool create_surface)
 		}
 		else
 		{
-			const Sint64 file_size = fp->size(fp);
+			const size_t file_size = (size_t)fp->size(fp);
 			unsigned char *file_buffer = (unsigned char*)malloc(file_size);
 			fp->read(fp, file_buffer, 1, file_size);
 
@@ -472,7 +471,7 @@ static void DrawBitmap(RECT *rcView, int x, int y, RECT *rect, Surface_Ids surf_
 	SDL_Rect frameRect = RectToSDLRectScaled(rect);
 	
 	//Get dest rect
-	SDL_Rect destRect = {x * magnification, y * magnification, frameRect.w, frameRect.h};
+	SDL_Rect destRect = {x, y, frameRect.w, frameRect.h};
 	
 	//Set cliprect
 	SDL_RenderSetClipRect(gRenderer, &clipRect);
@@ -536,6 +535,16 @@ void CortBox2(RECT *rect, uint32_t col, Surface_Ids surf_no)
 	const unsigned char col_alpha = (col & 0xFF0000) >> 24;
 	SDL_FillRect(surf[surf_no].surface, &destRect, SDL_MapRGBA(surf[surf_no].surface->format, col_red, col_green, col_blue, col_alpha));
 	surf[surf_no].needs_updating = true;
+}
+
+int SubpixelToScreenCoord(int coord)
+{
+	return coord * magnification / 0x200;
+}
+
+int PixelToScreenCoord(int coord)
+{
+	return coord * magnification;
 }
 
 #ifdef WINDOWS

@@ -20,9 +20,9 @@ ifeq ($(JAPANESE), 1)
 	CXXFLAGS += -DJAPANESE
 
 	ifeq ($(RELEASE), 1)
-		EXECUTABLENAME_DEF = DoukutsuReleasejp
+		EXECUTABLENAME_DEF = DoukutsuReleaseJp
 	else
-		EXECUTABLENAME_DEF = DoukutsuDebugjp
+		EXECUTABLENAME_DEF = DoukutsuDebugJp
 	endif
 endif
 
@@ -35,9 +35,6 @@ endif
 ifeq ($(WINDOWS), 1)
 	ifeq ($(CONSOLE), 1)
 		CXXFLAGS += -mconsole
-	endif
-	ifeq ($(JAPANESE), 1)
-		LIBS += -liconv
 	endif
 
 	CXXFLAGS += -DWINDOWS

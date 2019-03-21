@@ -33,7 +33,7 @@ void ReadyMapName(const char *str)
 	strcpy(gMapName.name, str);
 	
 	//Draw the text to the surface
-	int len = strlen(gMapName.name);
+	int len = (int)strlen(gMapName.name);
 	
 	CortBox2(&rc, 0, SURFACE_ID_ROOM_NAME);
 	PutText2((-6 * len + 160) / 2 + 6, 1, gMapName.name, RGB(0x11, 0x00, 0x22), SURFACE_ID_ROOM_NAME);
@@ -47,12 +47,12 @@ void PutMapName(bool bMini)
 		//Map system
 		RECT rcBack = {0, 7, WINDOW_WIDTH, 24};
 		CortBox(&rcBack, 0x000000);
-		PutBitmap3(&grcGame, (WINDOW_WIDTH - 172) / 2, 10, &rc, SURFACE_ID_ROOM_NAME);
+		PutBitmap3(&grcGame, PixelToScreenCoord((WINDOW_WIDTH - 172) / 2), PixelToScreenCoord(10), &rc, SURFACE_ID_ROOM_NAME);
 	}
 	else if (gMapName.flag)
 	{
 		//MNA
-		PutBitmap3(&grcGame, (WINDOW_WIDTH - 172) / 2, (WINDOW_HEIGHT - 80) / 2, &rc, SURFACE_ID_ROOM_NAME);
+		PutBitmap3(&grcGame, PixelToScreenCoord((WINDOW_WIDTH - 172) / 2), PixelToScreenCoord((WINDOW_HEIGHT - 80) / 2), &rc, SURFACE_ID_ROOM_NAME);
 		if (++gMapName.wait > 160)
 			gMapName.flag = 0;
 	}
@@ -66,7 +66,7 @@ void StartMapName()
 
 void RestoreMapName()
 {
-	int len = strlen(gMapName.name);
+	int len = (int)strlen(gMapName.name);
 	
 	CortBox2(&rc, 0, SURFACE_ID_ROOM_NAME);
 	PutText2((-6 * len + 160) / 2 + 6, 1, gMapName.name, RGB(0x11, 0x00, 0x22), SURFACE_ID_ROOM_NAME);
