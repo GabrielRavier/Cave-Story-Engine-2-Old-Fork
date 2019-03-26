@@ -41,8 +41,8 @@ ifeq ($(WINDOWS), 1)
 	LIBS += -lkernel32
 endif
 
-ifeq ($(WARNINGS), 1)
-	CXXFLAGS += -Wall -Wextra
+ifeq ($(RASPBERRY_PI), 1)
+	CXXFLAGS += -DRASPBERRY_PI
 endif
 
 ifeq ($(ALL_WARNINGS),1)
