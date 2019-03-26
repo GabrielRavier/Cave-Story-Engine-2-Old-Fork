@@ -45,6 +45,10 @@ ifeq ($(RASPBERRY_PI), 1)
 	CXXFLAGS += -DRASPBERRY_PI
 endif
 
+ifneq ($(WARNINGS), 1)
+	CXXFLAGS += -Wall -Wextra
+endif
+
 ifeq ($(ALL_WARNINGS),1)
 	ifneq ($(findstring clang,$(CXX)),)
 		# Use clang-specific flag -Weverything
