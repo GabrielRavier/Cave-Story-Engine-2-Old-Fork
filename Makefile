@@ -46,7 +46,7 @@ ifeq ($(RASPBERRY_PI), 1)
 endif
 
 ifneq ($(WARNINGS), 1)
-	CXXFLAGS += -Wall -Wextra
+	CXXFLAGS += -Wall -Wextra -Wpedantic
 endif
 
 ifeq ($(ALL_WARNINGS),1)
@@ -62,7 +62,7 @@ endif
 # Base command-line when calling the compiler
 # `sdl2-config --cflags` to get the flags needed to compile with SDL2
 # -MMD -MP -MF $@.d to make the compiler generate dependency files
-CXXFLAGS += `sdl2-config --cflags` `pkg-config freetype2 --cflags` -MMD -MP -MF $@.d -DLODEPNG_NO_COMPILE_ENCODER -DLODEPNG_NO_COMPILE_ERROR_TEXT -DLODEPNG_NO_COMPILE_CPP
+CXXFLAGS += -std=c++17 `sdl2-config --cflags` `pkg-config freetype2 --cflags` -MMD -MP -MF $@.d -DLODEPNG_NO_COMPILE_ENCODER -DLODEPNG_NO_COMPILE_ERROR_TEXT -DLODEPNG_NO_COMPILE_CPP
 LIBS += `sdl2-config --static-libs` `pkg-config freetype2 --libs`
 
 ifeq ($(STATIC), 1)
