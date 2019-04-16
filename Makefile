@@ -17,6 +17,7 @@ endif
 
 ifeq ($(JAPANESE), 1)
 	BUILDFOLDER = buildJp
+	FILESFOLDER = $(RESOURCEFOLDER)/filesJp
 
 	CXXFLAGS += -DJAPANESE
 
@@ -27,12 +28,7 @@ ifeq ($(JAPANESE), 1)
 	endif
 else
 	BUILDFOLDER = buildEn
-endif
-
-ifeq ($(JAPANESE), 1)
-FILES_FOLDER = $(RESOURCEFOLDER)/filesJp
-else
-FILES_FOLDER = $(RESOURCEFOLDER)/filesJp
+	FILESFOLDER = $(RESOURCEFOLDER)/filesEn
 endif
 
 EXECUTABLENAME ?= $(EXECUTABLENAME_DEF)
@@ -171,7 +167,7 @@ all: $(BUILDFOLDER)/$(EXECUTABLENAME) dummyDataTarget
 
 dummyDataTarget:
 	@echo Syncing data files...
-	@rsync -a $(FILES_FOLDER) $(BUILDFOLDER)
+	@rsync -a $(FILESFOLDER)/ $(BUILDFOLDER)
 	@echo Synced data files
 
 $(BUILDFOLDER)/$(EXECUTABLENAME): $(OBJECTS)
@@ -213,6 +209,5 @@ $(OBJFOLDER)/$(EXECUTABLENAME)/win_icon.o: $(RESOURCEFOLDER)/ICON/ICON.rc $(RESO
 # Include dependencies
 include $(wildcard $(DEPENDENCIES))
 	
-# TODO
 clean:
-	@rm -rf build obj
+	@rm -rf $(BUILDFOLDER) $(OBJFOLDER)
