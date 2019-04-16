@@ -26,6 +26,12 @@ ifeq ($(JAPANESE), 1)
 	endif
 endif
 
+ifeq ($(JAPANESE), 1)
+FILES_FOLDER = $(RESOURCEFOLDER)/filesJp
+else
+FILES_FOLDER = $(RESOURCEFOLDER)/filesJp
+endif
+
 EXECUTABLENAME ?= $(EXECUTABLENAME_DEF)
 
 ifeq ($(FIX_BUGS), 1)
@@ -45,7 +51,7 @@ ifeq ($(RASPBERRY_PI), 1)
 	CXXFLAGS += -DRASPBERRY_PI
 endif
 
-ifneq ($(WARNINGS), 1)
+ifeq ($(WARNINGS), 1)
 	CXXFLAGS += -Wall -Wextra -Wpedantic
 endif
 
@@ -160,17 +166,17 @@ endif
 all: $(BUILDFOLDER)/$(EXECUTABLENAME) dummyDataTarget
 	@echo Build finished without errors !
 
+dummyDataTarget:
+	@mkdir -p $(@D)
+	@echo Syncing data files...
+	@rsync -a $(FILES_FOLDER) $(BUILDFOLDER)
+	@echo Synced data files
+
 $(BUILDFOLDER)/$(EXECUTABLENAME): $(OBJECTS)
 	@mkdir -p $(@D)
 	@echo Linking to $@...
 	@$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@ $(LIBS)
 	@echo Finished compiling $@
-
-# Do this unless we find a way to use rsync to check if there is any change to be made in some way
-dummyDataTarget:
-	@echo Syncing data files...
-	@rsync -a $(DATAFOLDER)/ $(BUILDFOLDER)/
-	@echo Synced data files
 
 $(OBJFOLDER)/$(EXECUTABLENAME)/%.o: $(SOURCEFOLDER)/%.cpp
 	@mkdir -p $(@D)
@@ -184,19 +190,19 @@ $(OBJFOLDER)/$(EXECUTABLENAME)/Resource.o: $(SOURCEFOLDER)/Resource.cpp $(addpre
 	@$(CXX) $(CXXFLAGS) $< -o $@ -c
 	@echo Finished compiling $<
 
-$(SOURCEFOLDER)/Resource/%.h: $(RESOURCEFOLDER)/% $(OBJFOLDER)/bin2h
+$(SOURCEFOLDER)/Resource/%.h: $(RESOURCEFOLDER)/resources/% $(OBJFOLDER)/bin2h
 	@mkdir -p $(@D)
 	@echo Converting $<...
 	@$(OBJFOLDER)/bin2h $< $@
 	@echo Finished converting $<
 
-$(OBJFOLDER)/bin2h: $(RESOURCEFOLDER)/bin2h.c
+$(OBJFOLDER)/bin2h: $(SRCFOLDER)/misc/bin2h.c
 	@mkdir -p $(@D)
 	@echo Compiling $^...
-	@$(CC) -O3 -s -static $^ -o $@
+	@$(CC) -O3 -s -std=c11 $^ -o $@
 	@echo Finished compiling $^
 
-$(OBJFOLDER)/$(EXECUTABLENAME)/win_icon.o: $(RESOURCEFOLDER)/ICON/ICON.rc $(RESOURCEFOLDER)/ICON/0.ico $(RESOURCEFOLDER)/ICON/ICON_MINI.ico
+$(OBJFOLDER)/$(EXECUTABLENAME)/win_icon.o: $(RESOURCEFOLDER)/resources/ICON/ICON.rc $(RESOURCEFOLDER)/resources/ICON/0.ico $(RESOURCEFOLDER)/resources/ICON/ICON_MINI.ico
 	@mkdir -p $(@D)
 	@echo Making $^...
 	@windres $< $@
