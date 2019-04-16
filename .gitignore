@@ -3,7 +3,6 @@
 
 # Misc
 /obj
-/build
 *.dat
 *.rec
 build.7z
@@ -60,3 +59,7 @@ msvc/msvc2003/Release
 msvc/msvc2003/Debug (Japanese)
 msvc/msvc2003/Release (Japanese)
 *.aps
+
+# Build folders
+/buildEn
+/buildJp

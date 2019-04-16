@@ -1,5 +1,4 @@
 OBJFOLDER = obj
-BUILDFOLDER = build
 RESOURCEFOLDER = res
 DATAFOLDER = gameData
 SOURCEFOLDER = src
@@ -13,10 +12,12 @@ else
 	EXECUTABLENAME_DEF = DoukutsuDebug
 	ifneq ($(CONSOLE), 0)
 		CONSOLE = 1
-endif
+	endif
 endif
 
 ifeq ($(JAPANESE), 1)
+	BUILDFOLDER = buildJp
+
 	CXXFLAGS += -DJAPANESE
 
 	ifeq ($(RELEASE), 1)
@@ -24,6 +25,8 @@ ifeq ($(JAPANESE), 1)
 	else
 		EXECUTABLENAME_DEF = DoukutsuDebugJp
 	endif
+else
+	BUILDFOLDER = buildEn
 endif
 
 ifeq ($(JAPANESE), 1)
@@ -167,7 +170,6 @@ all: $(BUILDFOLDER)/$(EXECUTABLENAME) dummyDataTarget
 	@echo Build finished without errors !
 
 dummyDataTarget:
-	@mkdir -p $(@D)
 	@echo Syncing data files...
 	@rsync -a $(FILES_FOLDER) $(BUILDFOLDER)
 	@echo Synced data files
@@ -190,7 +192,7 @@ $(OBJFOLDER)/$(EXECUTABLENAME)/Resource.o: $(SOURCEFOLDER)/Resource.cpp $(addpre
 	@$(CXX) $(CXXFLAGS) $< -o $@ -c
 	@echo Finished compiling $<
 
-$(SOURCEFOLDER)/Resource/%.h: $(RESOURCEFOLDER)/resources/% $(OBJFOLDER)/bin2h
+$(SOURCEFOLDER)/Resource/%.h: $(RESOURCEFOLDER)/% $(OBJFOLDER)/bin2h
 	@mkdir -p $(@D)
 	@echo Converting $<...
 	@$(OBJFOLDER)/bin2h $< $@
@@ -202,7 +204,7 @@ $(OBJFOLDER)/bin2h: $(SRCFOLDER)/misc/bin2h.c
 	@$(CC) -O3 -s -std=c11 $^ -o $@
 	@echo Finished compiling $^
 
-$(OBJFOLDER)/$(EXECUTABLENAME)/win_icon.o: $(RESOURCEFOLDER)/resources/ICON/ICON.rc $(RESOURCEFOLDER)/resources/ICON/0.ico $(RESOURCEFOLDER)/resources/ICON/ICON_MINI.ico
+$(OBJFOLDER)/$(EXECUTABLENAME)/win_icon.o: $(RESOURCEFOLDER)/ICON/ICON.rc $(RESOURCEFOLDER)ICON/0.ico $(RESOURCEFOLDER)/ICON/ICON_MINI.ico
 	@mkdir -p $(@D)
 	@echo Making $^...
 	@windres $< $@
@@ -211,5 +213,6 @@ $(OBJFOLDER)/$(EXECUTABLENAME)/win_icon.o: $(RESOURCEFOLDER)/resources/ICON/ICON
 # Include dependencies
 include $(wildcard $(DEPENDENCIES))
 	
+# TODO
 clean:
-	@rm -rf $(BUILDFOLDER) $(OBJFOLDER)
+	@rm -rf build obj
