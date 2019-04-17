@@ -37,7 +37,7 @@ Project files for Visual Studio 2003 are also available, in the 'msvc/msvc2003' 
 
 ## Running
 
-Because of the modifications made in this branch, a custom data folder is needed. These can be found in the 'res' folder: [one for Japanese builds](res/data_jp), [and one for English](res/data_en).
+Because of the modifications made in this branch, a custom data folder is needed. These can be found in the 'res' folder: [one for Japanese builds](res/dataJp), [and one for English](res/dataEn).
 
 ## Licensing
 
